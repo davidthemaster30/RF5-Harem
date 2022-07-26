@@ -13,12 +13,9 @@ namespace RF5_Harem
 	{
 		static void Prefix()
 		{
-			NpcDataManagerPatch.forceNPCID = NpcDataManagerPatch.RandomSpouses();
-		}
-
-		static void Postfix()
-		{
-			NpcDataManagerPatch.forceNPCID = Define.NPCID.None;
+			int npcid = Relation.RandomSpouses();
+			Relation.SetNPC(npcid);
+			Main.Log.LogDebug(string.Format("PlayerBedController.DoInteraction npcid:{0}", npcid));
 		}
 	}
 }

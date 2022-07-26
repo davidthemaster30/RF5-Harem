@@ -7,13 +7,20 @@ using HarmonyLib;
 
 namespace RF5_Harem
 {
-	// 表白可行性
+	// 朋友界面显示红心
 	[HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckCanbeLoverNPCID))]
 	public class ConditionsForLoverJudgmentPatch
 	{
-		static bool Prefix(ref bool __result)
+		static bool Prefix(Define.NPCID npcid, ref bool __result)
 		{
-			__result = true;
+			NpcData data = NpcDataManager.Instance.GetNpcData(npcid);
+			if (data == null)
+				__result = false;
+			else if (NpcDataManager.Instance.GetLoverNum() > 0)
+				__result = data.IsLover;
+			else
+				__result = data.statusData.MarriageCandidate;
+
 			return false;
 		}
 	}

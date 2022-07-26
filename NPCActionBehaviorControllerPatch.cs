@@ -14,12 +14,17 @@ namespace RF5_Harem
 		static void Prefix(NPCActionBehaviorController __instance)
 		{
 			if (__instance.NPCOwner != null && __instance.NPCOwner.NPCData != null)
-				NpcDataManagerPatch.forceNPCID = (Define.NPCID)__instance.NPCOwner.NPCData.NpcId;
+			{
+				Relation.SetNPC(__instance.NPCOwner.NPCData.NpcId);
+				Main.Log.LogInfo(string.Format("NPCActionBehaviorController.GetDataList npcid:{0}", __instance.NPCOwner.NPCData.NpcId));
+			}
 		}
 
+		/*
 		static void Postfix()
 		{
-			NpcDataManagerPatch.forceNPCID = Define.NPCID.None;
+			Main.SetNotLover();
 		}
+		*/
 	}
 }

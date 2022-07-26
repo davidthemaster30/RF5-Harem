@@ -7,7 +7,7 @@ using HarmonyLib;
 
 namespace RF5_Harem
 {
-	// 防止个人线无法继续进行
+	// 防止个人线被禁用
 	[HarmonyPatch(typeof(SubEventMasterDataBase), nameof(SubEventMasterDataBase.CheckOccurrenceLoveProgress))]
 	public class SubEventMasterDataBasePatch
 	{

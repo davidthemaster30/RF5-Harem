@@ -7,53 +7,128 @@ using HarmonyLib;
 
 namespace RF5_Harem
 {
-	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.GetSpouseNpcId))]
 	public class NpcDataManagerPatch
 	{
-		// 修复各种事件和对话
-		static public Define.NPCID forceNPCID = Define.NPCID.None;
+		static public int forceNPCID = 0;
+		static public bool hideLover = false;
+		static public bool internalState = false;
+	}
 
+	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.GetSpouseNpcId))]
+	public class NpcDataManagerGetSpouseId
+	{
 		static bool Prefix(NpcDataManager __instance, ref int __result)
 		{
-			if(forceNPCID <= Define.NPCID.Ares)
+			if(NpcDataManagerPatch.hideLover)
+			{
+				__result = 0;
+				return false;
+			}
+			
+			if(NpcDataManagerPatch.forceNPCID < 2)
 				return true;
 
-			if (forceNPCID != Define.NPCID.Max)
-			{
-				// 固定某个
-				if (__instance.GetNpcData(forceNPCID)?.IsSpouses == true)
-					__result = (int)forceNPCID;
-				else
-					__result = 0;
-			}
+			if (__instance.GetNpcData(NpcDataManagerPatch.forceNPCID)?.IsSpouses == true)
+				__result = NpcDataManagerPatch.forceNPCID;
+			else
+				__result = 0;
 
 			return false;
 		}
-
-		public static Define.NPCID RandomSpouses()
-		{
-			int top = -1;
-			int[] npcs = new int[(int)Define.NPCID.Max];
-			foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
-				if (data.IsSpouses)
-					npcs[++top] = data.NpcId;
-
-			// 没有返回0
-			if (top <= -1)
-				return Define.NPCID.Ares;
-
-			return (Define.NPCID)npcs[UnityEngine.Random.Range(0, top)];
-		}
 	}
 
-	// 解决只能返回一个人的问题
 	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.IsSpouseNpc))]
-	public class NpcDataManagerPatch2
+	public class NpcDataManagerIsSpouse
 	{
 		static bool Prefix(NpcDataManager __instance, int npcid, ref bool __result)
 		{
-			// 原版是直接比较 npcid == NpcDataManager.GetSpouseNpcId()
-			__result = (__instance.GetNpcData(npcid)?.IsSpouses == true);
+			if (NpcDataManagerPatch.hideLover)
+				__result = false;
+			else
+				__result = __instance.GetNpcData(npcid)?.IsSpouses == true;
+
+			return false;
+		}
+	}
+
+	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.GetSpouseNpcData))]
+	public class NpcDataManagerSpouseData
+	{
+		static bool Prefix(NpcDataManager __instance, ref NpcData __result)
+		{
+			if (NpcDataManagerPatch.hideLover)
+			{
+				__result = null;
+				return false;
+			}
+
+			if(NpcDataManagerPatch.forceNPCID < 2)
+				return true;
+
+			__result = __instance.GetNpcData(NpcDataManagerPatch.forceNPCID);
+			if (__result != null && !__result.IsSpouses)
+				__result = null;
+
+			return false;
+		}
+	}
+
+	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.IsLover))]
+	public class NpcDataManagerIsLover
+	{
+		static bool Prefix(NpcDataManager __instance, int npcid, ref bool __result)
+		{
+			if (NpcDataManagerPatch.hideLover)
+				__result = false;
+			else
+				__result = __instance.GetNpcData(npcid)?.IsLover == true;
+
+			return false;
+		}
+	}
+
+	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.IsExistLover))]
+	public class NpcDataManagerIsExistLover
+	{
+		static bool Prefix(NpcDataManager __instance, int npcid, ref bool __result)
+		{
+			if (NpcDataManagerPatch.hideLover)
+			{
+				__result = false;
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.GetLoverNum))]
+	public class NpcDataManagerGetLoverNum
+	{
+		static bool Prefix(ref int __result)
+		{
+			if (NpcDataManagerPatch.hideLover)
+			{
+				__result = 0;
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.IsMoreThanLover))]
+	public class NpcDataManagerIsMoreThanLover
+	{
+		static bool Prefix(NpcDataManager __instance, int npcid, ref bool __result)
+		{
+			if (NpcDataManagerPatch.hideLover)
+			{
+				__result = false;
+				return false;
+			}
+
+			__result = __instance.GetNpcData(npcid)?.IsSpouses == true;
 			return false;
 		}
 	}
