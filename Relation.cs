@@ -55,12 +55,11 @@ namespace RF5_Harem
 			{
 				HideSpouse();
 
-				// 恋人模式
+				// 伪装成单恋人
 				if (NpcDataManager.Instance.IsLover(npcid))
-				{
-					NpcDataManagerPatch.hideLover = false;
 					NpcDataManagerPatch.forceNPCID = npcid;
-				}
+				else // 伪装成无恋人
+					NpcDataManagerPatch.hideLover = true;
 
 				Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
 					NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
