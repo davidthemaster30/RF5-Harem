@@ -15,8 +15,9 @@ namespace RF5_Harem
 		{
 			if (__instance.NPCOwner != null && __instance.NPCOwner.NPCData != null)
 			{
-				Relation.SetNPC(__instance.NPCOwner.NPCData.NpcId);
-				Main.Log.LogInfo(string.Format("NPCActionBehaviorController.GetDataList npcid:{0}", __instance.NPCOwner.NPCData.NpcId));
+				if(__instance.NPCOwner.NPCData.NpcId >= 2)
+					Relation.SetNPC(__instance.NPCOwner.NPCData.NpcId);
+				Main.Log.LogDebug(string.Format("NPCActionBehaviorController.GetDataList npcid:{0}", __instance.NPCOwner.NPCData.NpcId));
 			}
 		}
 

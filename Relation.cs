@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace RF5_Harem
 {
 	public class Relation
 	{
-		public static void SetNotLover()
+		public static void HideSpouse()
 		{
-			NpcDataManagerPatch.hideLover = true;
+			NpcDataManagerPatch.hideSpouse = true;
 			NpcDataManagerPatch.forceNPCID = 0;
 			SaveData.SaveDataManager.PlayerData.MarriedNPCID = Define.NPCID.Ares;
 
@@ -22,9 +23,9 @@ namespace RF5_Harem
 			SaveData.SaveDataManager.GameSaveData.StampData.GetStampRecord(StampEnum.Marriage).StampLevel = StampLevel.None;
 			*/
 
-			Main.Log.LogDebug(string.Format("hideLover:{0}, forceNPCID:{1}, MarriedNPCID:{2}, PLAYER_MARRIED:{3}",
-				NpcDataManagerPatch.hideLover, NpcDataManagerPatch.forceNPCID,
-				SaveData.SaveDataManager.PlayerData.MarriedNPCID,
+			Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
+				NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
+				NpcDataManagerPatch.forceNPCID, SaveData.SaveDataManager.PlayerData.MarriedNPCID,
 				FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)
 			));
 		}
@@ -32,18 +33,44 @@ namespace RF5_Harem
 		public static void SetNPC(int npcid)
 		{
 			// 下面的 IsSpouseNpc 会读取，所以需要放在这里
+			NpcDataManagerPatch.hideSpouse = false;
 			NpcDataManagerPatch.hideLover = false;
 			NpcDataManagerPatch.forceNPCID = 0;
 
-			if (npcid < 2 || !NpcDataManager.Instance.IsSpouseNpc(npcid))
+			// 一般来说不建议进入到这里，会导致某些场景出现 bug 的
+			if(npcid < 2)
 			{
-				SetNotLover();
+				// 全部隐藏
+				HideSpouse();
+				NpcDataManagerPatch.hideLover = true;
+
+				Main.Log.LogWarning(string.Format("------ invalid NpcId:{0} ------", npcid));
+				foreach (StackFrame frame in new StackTrace().GetFrames())
+					Main.Log.LogWarning(string.Format("file:{0}|line:{1}|function:{2}", frame.GetFileName(), frame.GetFileLineNumber(), frame.GetMethod()));
+				Main.Log.LogWarning("------ end ------");
 				return;
 			}
 
-			NpcDataManagerPatch.hideLover = false;
-			NpcDataManagerPatch.forceNPCID = npcid;
+			if(!NpcDataManager.Instance.IsSpouseNpc(npcid))
+			{
+				HideSpouse();
 
+				// 恋人模式
+				if (NpcDataManager.Instance.IsLover(npcid))
+				{
+					NpcDataManagerPatch.hideLover = false;
+					NpcDataManagerPatch.forceNPCID = npcid;
+				}
+
+				Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
+					NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
+					NpcDataManagerPatch.forceNPCID, SaveData.SaveDataManager.PlayerData.MarriedNPCID,
+					FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)
+				));
+				return;
+			}
+
+			NpcDataManagerPatch.forceNPCID = npcid;
 			SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)npcid;
 
 			/*
@@ -54,9 +81,9 @@ namespace RF5_Harem
 			FlagDataStorage.SetScriptFlag(true, flags);
 			*/
 
-			Main.Log.LogDebug(string.Format("hideLover:{0}, forceNPCID:{1}, MarriedNPCID:{2}, PLAYER_MARRIED:{3}",
-				NpcDataManagerPatch.hideLover, NpcDataManagerPatch.forceNPCID,
-				SaveData.SaveDataManager.PlayerData.MarriedNPCID,
+			Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
+				NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
+				NpcDataManagerPatch.forceNPCID, SaveData.SaveDataManager.PlayerData.MarriedNPCID,
 				FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)
 			));
 		}
@@ -66,11 +93,9 @@ namespace RF5_Harem
 			int top = -1;
 			int[] npcs = new int[(int)Define.NPCID.Max];
 
-			NpcDataManagerPatch.internalState = true;
 			foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
 				if (data.IsSpouses)
 					npcs[++top] = data.NpcId;
-			NpcDataManagerPatch.internalState = false;
 
 			if (top <= -1)
 				return 0;

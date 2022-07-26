@@ -10,8 +10,8 @@ namespace RF5_Harem
 	public class NpcDataManagerPatch
 	{
 		static public int forceNPCID = 0;
+		static public bool hideSpouse = false;
 		static public bool hideLover = false;
-		static public bool internalState = false;
 	}
 
 	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.GetSpouseNpcId))]
@@ -19,7 +19,7 @@ namespace RF5_Harem
 	{
 		static bool Prefix(NpcDataManager __instance, ref int __result)
 		{
-			if(NpcDataManagerPatch.hideLover)
+			if(NpcDataManagerPatch.hideSpouse)
 			{
 				__result = 0;
 				return false;
@@ -42,8 +42,10 @@ namespace RF5_Harem
 	{
 		static bool Prefix(NpcDataManager __instance, int npcid, ref bool __result)
 		{
-			if (NpcDataManagerPatch.hideLover)
+			if (NpcDataManagerPatch.hideSpouse)
 				__result = false;
+			else if(NpcDataManagerPatch.forceNPCID >= 2)
+				__result = NpcDataManagerPatch.forceNPCID == npcid && __instance.GetNpcData(npcid)?.IsSpouses == true;
 			else
 				__result = __instance.GetNpcData(npcid)?.IsSpouses == true;
 
@@ -56,7 +58,7 @@ namespace RF5_Harem
 	{
 		static bool Prefix(NpcDataManager __instance, ref NpcData __result)
 		{
-			if (NpcDataManagerPatch.hideLover)
+			if (NpcDataManagerPatch.hideSpouse)
 			{
 				__result = null;
 				return false;
@@ -80,6 +82,8 @@ namespace RF5_Harem
 		{
 			if (NpcDataManagerPatch.hideLover)
 				__result = false;
+			else if(NpcDataManagerPatch.forceNPCID >= 2)
+				__result = NpcDataManagerPatch.forceNPCID == npcid && __instance.GetNpcData(npcid)?.IsLover == true;
 			else
 				__result = __instance.GetNpcData(npcid)?.IsLover == true;
 
@@ -98,6 +102,12 @@ namespace RF5_Harem
 				return false;
 			}
 
+			if (NpcDataManagerPatch.forceNPCID >= 2)
+			{
+				__result = NpcDataManagerPatch.forceNPCID == npcid && __instance.GetNpcData(npcid)?.IsLover == true;
+				return false;
+			}
+
 			return true;
 		}
 	}
@@ -105,11 +115,17 @@ namespace RF5_Harem
 	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.GetLoverNum))]
 	public class NpcDataManagerGetLoverNum
 	{
-		static bool Prefix(ref int __result)
+		static bool Prefix(NpcDataManager __instance, ref int __result)
 		{
 			if (NpcDataManagerPatch.hideLover)
 			{
 				__result = 0;
+				return false;
+			}
+
+			if (NpcDataManagerPatch.forceNPCID >= 2)
+			{
+				__result = __instance.GetNpcData(NpcDataManagerPatch.forceNPCID)?.IsLover == true ? 1 : 0;
 				return false;
 			}
 
@@ -122,14 +138,35 @@ namespace RF5_Harem
 	{
 		static bool Prefix(NpcDataManager __instance, int npcid, ref bool __result)
 		{
-			if (NpcDataManagerPatch.hideLover)
-			{
+			if (NpcDataManagerPatch.hideSpouse)
 				__result = false;
-				return false;
-			}
+			else if (NpcDataManagerPatch.forceNPCID >= 2)
+				__result = NpcDataManagerPatch.forceNPCID == npcid && __instance.GetNpcData(npcid)?.IsSpouses == true;
+			else
+				__result = __instance.GetNpcData(npcid)?.IsSpouses == true;
 
-			__result = __instance.GetNpcData(npcid)?.IsSpouses == true;
 			return false;
+		}
+	}
+
+	// 修复其他NPC的关系
+	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.DoMarriage))]
+	public class NpcDataManagerMarriage
+	{
+		static void Prefix(NpcDataManager __instance, int npcId, ref bool[] __state)
+		{
+			__state = new bool[__instance.NpcDatas.Count];
+			for(int i = 0; i < __instance.NpcDatas.Count; ++i)
+				__state[i] = __instance.NpcDatas[i].IsSpouses;
+
+			Relation.SetNPC(npcId);
+		}
+
+		static void Postfix(NpcDataManager __instance, int npcId, bool[] __state)
+		{
+			for (int i = 0; i < __state.Length; ++i)
+				if(__instance.NpcDatas[i].NpcId != npcId)
+					__instance.NpcDatas[i].IsSpouses = __instance.NpcDatas[i].NpcSaveParameters.IsSpouses = __state[i];
 		}
 	}
 }

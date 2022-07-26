@@ -14,7 +14,8 @@ namespace RF5_Harem
 	{
 		static void Prefix(EventControllerBase __instance)
 		{
-			Relation.SetNPC(__instance.TargetNpcId);
+			if(__instance.TargetNpcId >= 2)
+				Relation.SetNPC(__instance.TargetNpcId);
 			Main.Log.LogDebug(string.Format("EventControllerBase.RunScript npcid:{0}", __instance.TargetNpcId));
 		}
 	}

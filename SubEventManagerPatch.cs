@@ -13,14 +13,21 @@ namespace RF5_Harem
 	{
 		static bool Prefix(NpcData data, ref bool __result)
 		{
+			Main.Log.LogDebug(string.Format("SubEventManager.CheckCanMarriage npcid:{0}", data?.NpcId));
 			__result = ItemStorageManager.GetStorage(Define.StorageType.Rucksack).GetItemAmoutId(ItemID.Item_Konyakuyubiwa) > 0;
+
+			// 缺少订婚戒指
+			if(!__result)
+				Main.Log.LogInfo("ring missing");
+
+			// 缺少双人床，由于不知道怎样才能解锁，这里强制解锁
 			if (__result && !SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed))
 			{
 				SaveData.SaveDataManager.GameSaveData.EventData.SaveFlag.SetFlag((int)Define.GameFlagData.FLAG_Extend_DoubleBed, true);
 				SaveData.SaveDataManager.BuildData.SetBuilder(true, RF5SHOP.BuilderId.Build_Police_doublebed);
+				Main.Log.LogInfo("doublebed missing");
 			}
 
-			Main.Log.LogDebug(string.Format("SubEventManager.CheckCanMarriage npcid:{0}", data?.NpcId));
 			return false;
 		}
 	}
@@ -31,13 +38,16 @@ namespace RF5_Harem
 	{
 		static bool Prefix(NpcData data, ref bool __result)
 		{
+			Main.Log.LogDebug(string.Format("SubEventManager.CheckCanMarriage_ThrowRing npcid:{0}", data?.NpcId));
+
+			// 缺少双人床，由于不知道怎样才能解锁，这里强制解锁
 			if (!SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed))
 			{
 				SaveData.SaveDataManager.GameSaveData.EventData.SaveFlag.SetFlag((int)Define.GameFlagData.FLAG_Extend_DoubleBed, true);
 				SaveData.SaveDataManager.BuildData.SetBuilder(true, RF5SHOP.BuilderId.Build_Police_doublebed);
+				Main.Log.LogInfo("doublebed missing");
 			}
 
-			Main.Log.LogDebug(string.Format("SubEventManager.CheckCanMarriage npcid:{0}", data?.NpcId));
 			__result = true;
 			return false;
 		}

@@ -43,6 +43,7 @@ namespace RF5_Harem
 	{
 		static bool Prefix(int npcid, ref int __result)
 		{
+			// 前三次是恋人特殊约会
 			switch(EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid))
 			{
 				case 5:
@@ -62,6 +63,7 @@ namespace RF5_Harem
 				}
 				default:
 				{
+					// 之后只有普通约会
 					__result = 0;
 					break;
 				}

@@ -12,7 +12,9 @@ namespace RF5_Harem
 	{
 		static void Prefix(NpcController npc)
 		{
-			Relation.SetNPC(npc?.NpcId ?? 0);
+			if(npc != null && npc.NpcId >= 2)
+				Relation.SetNPC(npc.NpcId);
+
 			Main.Log.LogDebug(string.Format("AdvMain.AdvStart npcid:{0}", npc?.NpcId));
 		}
 	}
@@ -22,7 +24,9 @@ namespace RF5_Harem
 	{
 		static void Prefix(AdvMain __instance, NpcController npc)
 		{
-			Relation.SetNPC(npc?.NpcId ?? 0);
+			if (npc != null && npc.NpcId >= 2)
+				Relation.SetNPC(npc.NpcId);
+
 			Main.Log.LogDebug(string.Format("AdvMain.ReadCommand npcid:{0} cmdid:{1} arg:{2} args:{3}",
 				npc?.NpcId, (CommandList)__instance.Cmd.CmdID, string.Join(",", __instance.Cmd.Arg), string.Join(",", __instance.Cmd.ArgText)));
 		}
