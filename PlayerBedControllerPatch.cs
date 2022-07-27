@@ -15,7 +15,7 @@ namespace RF5_Harem
 		{
 			int npcid = Relation.RandomSpouses();
 			Relation.SetNPC(npcid);
-			Main.Log.LogDebug(string.Format("PlayerBedController.DoInteraction npcid:{0}", npcid));
+			Main.Log.LogInfo(string.Format("PlayerBedController.DoInteraction npcid:{0}", npcid));
 		}
 	}
 }

@@ -19,4 +19,40 @@ namespace RF5_Harem
 			Main.Log.LogDebug(string.Format("EventControllerBase.RunScript npcid:{0}", __instance.TargetNpcId));
 		}
 	}
+
+	// 对话前置检查
+	[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.GetNpcTalkType))]
+	public class EventControllerBaseTalkType
+	{
+		static void Prefix(EventControllerBase __instance)
+		{
+			if(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= 2)
+				Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
+			else if (__instance.TargetNpcId >= 2)
+				Relation.SetNPC(__instance.TargetNpcId);
+
+			Main.Log.LogDebug(string.Format("EventControllerBase.GetNpcTalkType npcid:{0} evnpcid:{1}",
+				__instance.TargetNpcId,
+				SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId
+			));
+		}
+	}
+
+	// 对话时的选择菜单
+	[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.SelectedMenuGroup))]
+	public class EventControllerBaseSelectedMenu
+	{
+		static void Prefix(EventControllerBase __instance)
+		{
+			if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= 2)
+				Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
+			else if (__instance.TargetNpcId >= 2)
+				Relation.SetNPC(__instance.TargetNpcId);
+
+			Main.Log.LogDebug(string.Format("EventControllerBase.SelectedMenuGroup npcid:{0} evnpcid:{1}",
+				__instance.TargetNpcId,
+				SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId
+			));
+		}
+	}
 }

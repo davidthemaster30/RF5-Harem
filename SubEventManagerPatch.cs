@@ -18,14 +18,14 @@ namespace RF5_Harem
 
 			// 缺少订婚戒指
 			if(!__result)
-				Main.Log.LogInfo("ring missing");
+				Main.Log.LogWarning("CheckCanMarriage ring missing");
 
 			// 缺少双人床，由于不知道怎样才能解锁，这里强制解锁
 			if (__result && !SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed))
 			{
 				SaveData.SaveDataManager.GameSaveData.EventData.SaveFlag.SetFlag((int)Define.GameFlagData.FLAG_Extend_DoubleBed, true);
 				SaveData.SaveDataManager.BuildData.SetBuilder(true, RF5SHOP.BuilderId.Build_Police_doublebed);
-				Main.Log.LogInfo("doublebed missing");
+				Main.Log.LogWarning("CheckCanMarriage doublebed missing");
 			}
 
 			return false;
@@ -45,7 +45,7 @@ namespace RF5_Harem
 			{
 				SaveData.SaveDataManager.GameSaveData.EventData.SaveFlag.SetFlag((int)Define.GameFlagData.FLAG_Extend_DoubleBed, true);
 				SaveData.SaveDataManager.BuildData.SetBuilder(true, RF5SHOP.BuilderId.Build_Police_doublebed);
-				Main.Log.LogInfo("doublebed missing");
+				Main.Log.LogWarning("CheckCanMarriage_ThrowRing doublebed missing");
 			}
 
 			__result = true;

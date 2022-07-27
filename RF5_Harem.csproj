@@ -75,14 +75,18 @@
     <Compile Include="CampMenuMainPatch.cs" />
     <Compile Include="ConditionsForLoverJudgmentPatch.cs" />
     <Compile Include="EventControllerBasePatch.cs" />
+    <Compile Include="GiveBirthControllerPatch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="NPCActionBehaviorControllerPatch.cs" />
     <Compile Include="NpcDataManagerPatch.cs" />
+    <Compile Include="NpcSearchColliderPatch.cs" />
     <Compile Include="PlayerBedControllerPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Relation.cs" />
     <Compile Include="SubEventManagerPatch.cs" />
     <Compile Include="SubEventMasterDataBasePatch.cs" />
+    <Compile Include="TeleportAreaManagerPatch.cs" />
+    <Compile Include="TextOverwriteListPatch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

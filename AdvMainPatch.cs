@@ -7,6 +7,7 @@ using HarmonyLib;
 
 namespace RF5_Harem
 {
+	// ADV开始，也许不需要
 	[HarmonyPatch(typeof(AdvMain), nameof(AdvMain.AdvStart))]
 	public class AdvMainStart
 	{
@@ -19,6 +20,7 @@ namespace RF5_Harem
 		}
 	}
 
+	// ADV文本，这里可以修改显示的文本
 	[HarmonyPatch(typeof(AdvMain), nameof(AdvMain.ReadCommand))]
 	public class AdvMainReadCommand
 	{
