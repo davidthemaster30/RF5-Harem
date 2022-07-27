@@ -17,8 +17,12 @@ namespace RF5_Harem
 			NpcDataManagerPatch.hideSpouse = false;
 			NpcDataManagerPatch.forceNPCID = 0;
 
+			long spouses = MathRF.Clamp(Main.Config.GetInt("Spouses", "SaveLogo", 1), 0, 14);
+			if (spouses == 1)
+				spouses = Relation.RandomSpouses();
+
 			// 修复存档时没有双人图片
-			SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)Relation.RandomSpouses();
+			SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)spouses;
 		}
 	}
 }

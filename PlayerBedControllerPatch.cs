@@ -13,9 +13,26 @@ namespace RF5_Harem
 	{
 		static void Prefix()
 		{
-			int npcid = Relation.RandomSpouses();
-			Relation.SetNPC(npcid);
-			Main.Log.LogInfo(string.Format("PlayerBedController.DoInteraction npcid:{0}", npcid));
+			long spouses = MathRF.Clamp(Main.Config.GetInt("Spouses", "Bedmate", 1), 0, 14);
+			if (spouses == 1)
+				spouses = Relation.RandomSpouses();
+
+			Relation.SetNPC((int)spouses);
+
+			if(!Main.Config.GetBool("Spouses", "Cohabitation", true))
+			{
+				foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
+				{
+					if(data.IsSpouses && data.NpcId != spouses)
+					{
+						data.Home = data.statusData.Home;
+						data.BedPatrolPointName = data.statusData.BedPatrolPointName;
+						data.BedPatrolPoint = NpcPatrolPointManager.Instance.GetPoint(data.BedPatrolPointName).GetComponent<NpcPatrolPoint>();
+					}
+				}
+			}
+
+			Main.Log.LogInfo(string.Format("PlayerBedController.DoInteraction npcid:{0}", spouses));
 		}
 	}
 }

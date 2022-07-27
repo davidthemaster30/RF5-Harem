@@ -7,6 +7,8 @@ using BepInEx;
 using HarmonyLib;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using System.Reflection;
+using System.IO;
 
 namespace RF5_Harem
 {
@@ -22,10 +24,13 @@ namespace RF5_Harem
 		#endregion
 
 		static public new ManualLogSource Log;
+		private static string FILENAME = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + NAME + ".ini";
+		public static new IniParser Config;
 
 		public override void Load()
 		{
 			Log = base.Log;
+			Config = new IniParser(FILENAME);
 			new Harmony(GUID).PatchAll();
 		}
 	}

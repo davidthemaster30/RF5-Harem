@@ -76,9 +76,11 @@
     <Compile Include="ConditionsForLoverJudgmentPatch.cs" />
     <Compile Include="EventControllerBasePatch.cs" />
     <Compile Include="GiveBirthControllerPatch.cs" />
+    <Compile Include="IniParser.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="NPCActionBehaviorControllerPatch.cs" />
     <Compile Include="NpcDataManagerPatch.cs" />
+    <Compile Include="NpcLifecycleControllerPatch.cs" />
     <Compile Include="NpcSearchColliderPatch.cs" />
     <Compile Include="PlayerBedControllerPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -32,7 +32,8 @@ namespace RF5_Harem
 		static bool Prefix(int npcid, ref bool __result)
 		{
 			// 先完成个人线的部分剧情才可以表白
-			__result = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= 4);
+			__result = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveStoryProgress", 4), 0, 4) &&
+				NpcDataManager.Instance.LovePointManager.GetLoveLv(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveLevel", 4), 0, 10000));
 			return false;
 		}
 	}

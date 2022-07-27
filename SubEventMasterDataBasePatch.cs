@@ -13,7 +13,7 @@ namespace RF5_Harem
 	{
 		static bool Prefix(ref bool __result)
 		{
-			__result = true;
+			__result = Main.Config.GetBool("Lover", "UnlimitedLoveEvent", true);
 			return false;
 		}
 	}

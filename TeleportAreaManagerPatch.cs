@@ -13,10 +13,27 @@ namespace RF5_Harem
 	{
 		static bool Prefix(ref BGMID __result)
 		{
-			if (Relation.RandomSpouses() >= 2)
-				__result = BGMID.BGM_HeroHouse_002;
-			else
-				__result = BGMID.BGM_HeroHouse_001;
+			switch(MathRF.Clamp(Main.Config.GetInt("Spouses", "BGM", 1), 1, 3))
+			{
+				case 1:
+				{
+					if (Relation.RandomSpouses() >= 2)
+						__result = BGMID.BGM_HeroHouse_002;
+					else
+						__result = BGMID.BGM_HeroHouse_001;
+					break;
+				}
+				case 2:
+				{
+					__result = BGMID.BGM_HeroHouse_001;
+					break;
+				}
+				case 3:
+				{
+					__result = BGMID.BGM_HeroHouse_002;
+					break;
+				}
+			}
 
 			Main.Log.LogDebug(string.Format("TeleportAreaManager.GetHomeBGMId bgm:{0}", __result));
 			return false;
