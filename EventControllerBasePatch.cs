@@ -55,4 +55,14 @@ namespace RF5_Harem
 			));
 		}
 	}
+
+	// 阻止重置其他NPC的数据
+	[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.MarriageInit))]
+	public class EventControllerBaseMarriageInit
+	{
+		static bool Prefix()
+		{
+			return false;
+		}
+	}
 }
