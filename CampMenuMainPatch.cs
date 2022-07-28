@@ -23,6 +23,7 @@ namespace RF5_Harem
 
 			// 修复存档时没有双人图片
 			SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)spouses;
+			Main.Log.LogDebug(string.Format("StartCamp npcid:{0}", SaveData.SaveDataManager.PlayerData.MarriedNPCID));
 		}
 	}
 }

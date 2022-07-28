@@ -11,10 +11,10 @@ namespace RF5_Harem
 	{
 		class TypeSet
 		{
-			public bool boolValue;
-			public int intValue;
-			public float floatValue;
-			public string stringValue;
+			public bool boolValue = false;
+			public int intValue = 0;
+			public float floatValue = 0f;
+			public string stringValue = "";
 
 			public TypeSet(bool boolValue)
 			{

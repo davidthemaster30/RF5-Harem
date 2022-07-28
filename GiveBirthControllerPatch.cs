@@ -32,10 +32,11 @@ namespace RF5_Harem
 			if(__result)
 				__instance.IsGiveBirthTalkOn = true;
 
-			Main.Log.LogDebug(string.Format("GiveBirthController.WakeUpUpdate nowtype:{0}, targetdays:{1}, curdays:{2}",
+			Main.Log.LogDebug(string.Format("GiveBirthController.WakeUpUpdate nowtype:{0}, targetdays:{1}, curdays:{2}, diff:{3}",
 				nowType,
 				SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays,
-				TimeManager.Instance.CurrentDate().LowTime
+				TimeManager.Instance.CurrentDate().LowTime,
+				SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays - TimeManager.Instance.CurrentDate().LowTime
 			));
 			return false;
 		}

@@ -9,6 +9,8 @@ namespace RF5_Harem
 {
 	public class Relation
 	{
+		static int LastPoll = 0;
+		
 		public static void HideSpouse()
 		{
 			NpcDataManagerPatch.hideSpouse = true;
@@ -37,17 +39,18 @@ namespace RF5_Harem
 			NpcDataManagerPatch.hideLover = false;
 			NpcDataManagerPatch.forceNPCID = 0;
 
-			// 一般来说不建议进入到这里，会导致某些场景出现 bug 的
 			if(npcid < 2)
 			{
 				// 全部隐藏
 				HideSpouse();
 				NpcDataManagerPatch.hideLover = true;
 
+				/*
 				Main.Log.LogWarning(string.Format("------ invalid NpcId:{0} ------", npcid));
 				foreach (StackFrame frame in new StackTrace().GetFrames())
 					Main.Log.LogWarning(string.Format("file:{0}|line:{1}|function:{2}", frame.GetFileName(), frame.GetFileLineNumber(), frame.GetMethod()));
 				Main.Log.LogWarning("------ end ------");
+				*/
 				return;
 			}
 
@@ -90,16 +93,33 @@ namespace RF5_Harem
 		public static int RandomSpouses()
 		{
 			int top = -1;
-			int[] npcs = new int[(int)Define.NPCID.Max];
-
+			NpcData[] npcs = new NpcData[(int)Define.NPCID.Max];
 			foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
 				if (data.IsSpouses)
-					npcs[++top] = data.NpcId;
+					npcs[++top] = data;
 
-			if (top <= -1)
+			if (top < 0)
 				return 0;
 
-			return npcs[UnityEngine.Random.Range(0, top)];
+			/*
+			for (int i = 0; i <= top; ++i)
+				Main.Log.LogInfo(string.Format("Spouses[{0}/{1}] npcid:{2}({3}), Home:{4}, BedPatrol:{5}, NickName:{6}, PlayerNickName:{7}",
+					i, top, npcs[i].NpcId, (Define.NPCID)npcs[i].NpcId,
+					npcs[i].Home,
+					npcs[i].BedPatrolPointName,
+					npcs[i].NickNameFromPlayerId,
+					npcs[i].NickNameToPlayerId
+				));
+			*/
+
+			int choose;
+			if (Main.Config.GetBool("Spouses", "Poll", true))
+				choose = Math.Abs(LastPoll++ % (top + 1));
+			else
+				choose = new Random(TimeManager.Instance.ElapsedTime).Next(0, top);
+
+			// Main.Log.LogInfo(string.Format("Spouses Hit:{0}, npcid:{1}({2})", choose, npcs[choose].NpcId, (Define.NPCID)npcs[choose].NpcId));
+			return npcs[choose].NpcId;
 		}
 	}
 }
