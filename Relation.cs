@@ -113,7 +113,7 @@ namespace RF5_Harem
 			*/
 
 			int choose;
-			if (Main.Config.GetBool("Spouses", "Poll", true))
+			if (Main.Config.GetBool("Spouses", "Alternation", true))
 				choose = Math.Abs(LastPoll++ % (top + 1));
 			else
 				choose = new Random(TimeManager.Instance.ElapsedTime).Next(0, top);

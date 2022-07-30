@@ -20,12 +20,12 @@ namespace RF5_Harem
 				NpcDataManager.Instance.LovePointManager.GetLoveLvByNpcData(data) >= MathRF.Clamp(Main.Config.GetInt("Marriage", "MinLoveLevel", 10), 0, 10000));
 
 			// 订婚戒指
-			bool ring = (!Main.Config.GetBool("Marriage", "Ring", true) || ItemStorageManager.GetStorage(Define.StorageType.Rucksack).GetItemAmoutId(ItemID.Item_Konyakuyubiwa) > 0);
+			bool ring = (!Main.Config.GetBool("Marriage", "NeedRing", true) || ItemStorageManager.GetStorage(Define.StorageType.Rucksack).GetItemAmoutId(ItemID.Item_Konyakuyubiwa) > 0);
 			if(!ring)
 				Main.Log.LogWarning("CheckCanMarriage ring missing");
 
 			// 双人床
-			bool doublebed = (!Main.Config.GetBool("Marriage", "DoubleBed", true) || SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed));
+			bool doublebed = (!Main.Config.GetBool("Marriage", "NeedDoubleBed", true) || SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed));
 			if(!doublebed)
 				Main.Log.LogWarning("CheckCanMarriage double bed missing");
 
@@ -53,7 +53,7 @@ namespace RF5_Harem
 				NpcDataManager.Instance.LovePointManager.GetLoveLvByNpcData(data) >= MathRF.Clamp(Main.Config.GetInt("Marriage", "MinLoveLevel", 10), 0, 10000));
 
 			// 双人床
-			bool doublebed = (!Main.Config.GetBool("Marriage", "DoubleBed", true) || SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed));
+			bool doublebed = (!Main.Config.GetBool("Marriage", "NeedDoubleBed", true) || SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed));
 			if (!doublebed)
 				Main.Log.LogWarning("CheckCanMarriage double bed missing");
 
