@@ -13,7 +13,7 @@ namespace RF5_Harem
 	{
 		static bool Prefix(ref BGMID __result)
 		{
-			switch(MathRF.Clamp(Main.Config.GetInt("Spouses", "BGM", 1), 1, 3))
+			switch(MathRF.Clamp(Main.Config.GetInt("Spouses", "HomeBGM", 1), 1, 3))
 			{
 				case 1:
 				{

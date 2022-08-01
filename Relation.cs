@@ -45,6 +45,8 @@ namespace RF5_Harem
 
 		public static void SetNPC(int npcid)
 		{
+			int oldNpcId = NpcDataManagerPatch.forceNPCID;
+
 			// 下面的 IsSpouseNpc 会读取，所以需要放在这里
 			NpcDataManagerPatch.hideSpouse = false;
 			NpcDataManagerPatch.hideLover = false;
@@ -62,7 +64,7 @@ namespace RF5_Harem
 			if(Main.Config.GetBool("Spouses", "UnrelatedNPCDialogue", true) && (ChildNPCIDs.Contains((Define.NPCID)npcid) ||
 				!EventControllerBase.Instance.MarriageCandidateList.Contains((Define.NPCID)npcid)))
 			{
-				npcid = RandomSpouses();
+				npcid = oldNpcId < 2 ? RandomSpouses() : oldNpcId;
 				if (npcid < 2)
 				{
 					HideSpouse();
