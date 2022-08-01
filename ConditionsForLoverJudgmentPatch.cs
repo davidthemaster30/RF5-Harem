@@ -31,9 +31,18 @@ namespace RF5_Harem
 	{
 		static bool Prefix(int npcid, ref bool __result)
 		{
-			// 先完成个人线的部分剧情才可以表白
-			__result = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveStoryProgress", 4), 0, 4) &&
+			// 先完成个人线剧情以及关系检查
+			bool relation = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveStoryProgress", 4), 0, 4) &&
 				NpcDataManager.Instance.LovePointManager.GetLoveLv(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveLevel", 4), 0, 10000));
+
+			bool eventFlag = (!Main.Config.GetBool("Lover", "EventCheck", true) ||
+				(!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.TOWN_EVENT) &&
+				!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.SERIOUS_EVENT) &&
+				!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.LASTEPISODE)));
+			if (!eventFlag)
+				Main.Log.LogWarning(string.Format("Events 20, 21, 22, 1250 in progress"));
+
+			__result = relation && eventFlag;
 			return false;
 		}
 	}
@@ -44,8 +53,18 @@ namespace RF5_Harem
 	{
 		static bool Prefix(int npcid, ref int __result)
 		{
+			bool eventFlag = (!Main.Config.GetBool("Lover", "DateEventCheck", true) ||
+				(!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.TOWN_EVENT) &&
+				!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.FLAG_DATE_RESERVATION_NG)));
+			if (!eventFlag)
+			{
+				Main.Log.LogWarning(string.Format("Events 22, 23 in progress"));
+				__result = 0;
+				return false;
+			}
+
 			// 前三次是恋人特殊约会
-			switch(EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid))
+			switch (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid))
 			{
 				case 5:
 				{

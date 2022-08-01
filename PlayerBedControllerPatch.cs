@@ -22,7 +22,7 @@ namespace RF5_Harem
 		}
 	}
 
-	// 开始睡觉
+	// 睡着后
 	[HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.PlayerSleep))]
 	public class PlayerBedControllerSleep
 	{

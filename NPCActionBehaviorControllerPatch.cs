@@ -7,7 +7,7 @@ using HarmonyLib;
 
 namespace RF5_Harem
 {
-	// 角色行为
+	// 角色行为?
 	[HarmonyPatch(typeof(NPCActionBehaviorController), nameof(NPCActionBehaviorController.GetDataList))]
 	public class NPCActionBehaviorControllerPatch
 	{

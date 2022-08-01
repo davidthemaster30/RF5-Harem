@@ -43,7 +43,7 @@ namespace RF5_Harem
 			Main.Log.LogDebug(string.Format("AdvMain.ReadCommand result:{0}", __result));
 		}
 
-		// 尝试修复异常，异常原因未知
+		// 尝试修复异常导致的黑屏，来自于string转float，原因未知
 		static Exception Finalizer(Exception __exception, ref AdvMain.WorkList __result)
 		{
 			__result = LastResult;

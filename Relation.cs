@@ -10,6 +10,17 @@ namespace RF5_Harem
 	public class Relation
 	{
 		static int LastPoll = 0;
+		static HashSet<Define.NPCID> ChildNPCIDs = new HashSet<Define.NPCID> {
+			Define.NPCID.Baby,
+			Define.NPCID.ChildBoy,
+			Define.NPCID.ChildBoy1,
+			Define.NPCID.ChildBoy2,
+			Define.NPCID.ChildBoy3,
+			Define.NPCID.ChildGirl,
+			Define.NPCID.ChildGirl1,
+			Define.NPCID.ChildGirl2,
+			Define.NPCID.ChildGirl3,
+		};
 		
 		public static void HideSpouse()
 		{
@@ -44,14 +55,20 @@ namespace RF5_Harem
 				// 全部隐藏
 				HideSpouse();
 				NpcDataManagerPatch.hideLover = true;
-
-				/*
-				Main.Log.LogWarning(string.Format("------ invalid NpcId:{0} ------", npcid));
-				foreach (StackFrame frame in new StackTrace().GetFrames())
-					Main.Log.LogWarning(string.Format("file:{0}|line:{1}|function:{2}", frame.GetFileName(), frame.GetFileLineNumber(), frame.GetMethod()));
-				Main.Log.LogWarning("------ end ------");
-				*/
 				return;
+			}
+
+			// 解决其他NPC在结婚后没有评论
+			if(Main.Config.GetBool("Spouses", "UnrelatedNPCDialogue", true) && (ChildNPCIDs.Contains((Define.NPCID)npcid) ||
+				!EventControllerBase.Instance.MarriageCandidateList.Contains((Define.NPCID)npcid)))
+			{
+				npcid = RandomSpouses();
+				if (npcid < 2)
+				{
+					HideSpouse();
+					NpcDataManagerPatch.hideLover = true;
+					return;
+				}
 			}
 
 			if(!NpcDataManager.Instance.IsSpouseNpc(npcid))
@@ -75,14 +92,6 @@ namespace RF5_Harem
 			NpcDataManagerPatch.forceNPCID = npcid;
 			SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)npcid;
 
-			/*
-			SaveData.SaveDataManager.GameSaveData.StampData.GetStampRecord(StampEnum.Marriage).StampLevel = StampLevel.Bronze;
-
-			int[] flags = new int[1];
-			flags[0] = (int)Define.GameFlagData.PLAYER_MARRIED;
-			FlagDataStorage.SetScriptFlag(true, flags);
-			*/
-
 			Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
 				NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
 				NpcDataManagerPatch.forceNPCID, SaveData.SaveDataManager.PlayerData.MarriedNPCID,
@@ -100,17 +109,6 @@ namespace RF5_Harem
 
 			if (top < 0)
 				return 0;
-
-			/*
-			for (int i = 0; i <= top; ++i)
-				Main.Log.LogInfo(string.Format("Spouses[{0}/{1}] npcid:{2}({3}), Home:{4}, BedPatrol:{5}, NickName:{6}, PlayerNickName:{7}",
-					i, top, npcs[i].NpcId, (Define.NPCID)npcs[i].NpcId,
-					npcs[i].Home,
-					npcs[i].BedPatrolPointName,
-					npcs[i].NickNameFromPlayerId,
-					npcs[i].NickNameToPlayerId
-				));
-			*/
 
 			int choose;
 			if (Main.Config.GetBool("Spouses", "Alternation", true))

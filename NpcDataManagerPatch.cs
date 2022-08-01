@@ -166,7 +166,7 @@ namespace RF5_Harem
 		{
 			for (int i = 0; i < __state.Length; ++i)
 				if(__instance.NpcDatas[i].NpcId != npcId)
-					__instance.NpcDatas[i].IsSpouses = __instance.NpcDatas[i].NpcSaveParameters.IsSpouses = __state[i];
+					__instance.NpcDatas[i].IsSpouses = __state[i];
 		}
 	}
 }

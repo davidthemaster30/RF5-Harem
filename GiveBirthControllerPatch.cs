@@ -19,6 +19,7 @@ namespace RF5_Harem
 				return false;
 			}
 
+			// 这个是什么不清楚
 			int nowType = SaveData.SaveDataManager.NpcData.GiveBirthParams.NowType;
 			if (nowType == 9)
 				__result = true;
