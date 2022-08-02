@@ -19,7 +19,7 @@ namespace RF5_Harem
 		#region PluginInfo
 		private const string GUID = "C9A56862-DFB2-8BA7-D503-A8DE4D24068B";
 		private const string NAME = "RF5_Harem";
-		private const string VERSION = "1.0";
+		private const string VERSION = "1.0.1";
 		private const string GAME_PROCESS = "Rune Factory 5.exe";
 		#endregion
 
