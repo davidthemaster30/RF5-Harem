@@ -42,4 +42,15 @@ namespace RF5_Harem
 			return false;
 		}
 	}
+
+	// 防止覆盖数据
+	[HarmonyPatch(typeof(GiveBirthController), nameof(GiveBirthController.DoMarriage))]
+	class GiveBirthControllerDoMarriage
+	{
+		static bool Prefix(GiveBirthController __instance)
+		{
+			NpcDataManager.Instance.GetSpouseNpcData()?.SetTalkedTime(Define.NpcTalkedType.BirthChild, TimeManager.Instance.CurrentTimeInt);
+			return SaveData.SaveDataManager.NpcData.GiveBirthParams.NowType <= 0;
+		}
+	}
 }

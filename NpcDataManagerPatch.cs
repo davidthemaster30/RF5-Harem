@@ -68,7 +68,7 @@ namespace RF5_Harem
 				return true;
 
 			__result = __instance.GetNpcData(NpcDataManagerPatch.forceNPCID);
-			if (__result != null && !__result.IsSpouses)
+			if (__result?.IsSpouses != true)
 				__result = null;
 
 			return false;
