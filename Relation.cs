@@ -29,10 +29,7 @@ namespace RF5_Harem
 			SaveData.SaveDataManager.PlayerData.MarriedNPCID = Define.NPCID.Ares;
 
 			/*
-			int[] flags = new int[1];
-			flags[0] = (int)Define.GameFlagData.PLAYER_MARRIED;
-			FlagDataStorage.SetScriptFlag(false, flags);
-
+			FlagDataStorage.SetScriptFlag(false, (int)Define.GameFlagData.PLAYER_MARRIED);
 			SaveData.SaveDataManager.GameSaveData.StampData.GetStampRecord(StampEnum.Marriage).StampLevel = StampLevel.None;
 			*/
 
