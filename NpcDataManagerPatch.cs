@@ -133,6 +133,8 @@ namespace RF5_Harem
 		}
 	}
 
+	// 对话时名牌类型
+	/*
 	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.IsMoreThanLover))]
 	public class NpcDataManagerIsMoreThanLover
 	{
@@ -141,13 +143,14 @@ namespace RF5_Harem
 			if (NpcDataManagerPatch.hideSpouse)
 				__result = false;
 			else if (NpcDataManagerPatch.forceNPCID >= 2)
-				__result = NpcDataManagerPatch.forceNPCID == npcid && __instance.GetNpcData(npcid)?.IsSpouses == true;
+				__result = NpcDataManagerPatch.forceNPCID == npcid && (__instance.GetNpcData(npcid)?.IsSpouses == true || __instance.GetNpcData(npcid)?.IsLover == true);
 			else
-				__result = __instance.GetNpcData(npcid)?.IsSpouses == true;
+				__result = __instance.GetNpcData(npcid)?.IsSpouses == true || __instance.GetNpcData(npcid)?.IsLover == true;
 
 			return false;
 		}
 	}
+	*/
 
 	// 修复其他NPC的关系
 	[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.DoMarriage))]
