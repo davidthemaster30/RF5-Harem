@@ -16,6 +16,8 @@ namespace RF5_Harem
 		{
 			if(__instance.TargetNpcId >= 2)
 				Relation.SetNPC(__instance.TargetNpcId);
+			if (Main.Config.GetBool("Lover", "DontRefused", false) && __instance.TargetNpc?.NpcData?.IsRefused == true)
+				__instance.TargetNpc.NpcData.IsRefused = false;
 			Main.Log.LogDebug(string.Format("EventControllerBase.RunScript npcid:{0}", __instance.TargetNpcId));
 		}
 	}
