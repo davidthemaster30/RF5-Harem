@@ -14,14 +14,7 @@ public class NPCActionBehaviorControllerPatch
 				Relation.SetNPC(__instance.NPCOwner.NPCData.NpcId);
 			}
 
-			Main.Log.LogDebug(string.Format("NPCActionBehaviorController.GetDataList npcid:{0}", __instance.NPCOwner.NPCData.NpcId));
+			Main.Log.LogDebug($"NPCActionBehaviorController.GetDataList npcid:{__instance.NPCOwner.NPCData.NpcId}");
 		}
 	}
-
-	/*
-	static void Postfix()
-	{
-		Main.SetNotLover();
-	}
-	*/
 }

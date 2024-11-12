@@ -16,7 +16,7 @@ public class SVAutoSave
 		}
 
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)spouses;
-		Main.Log.LogDebug(string.Format("AutoSave npcid:{0}", SaveData.SaveDataManager.PlayerData.MarriedNPCID));
+		Main.Log.LogDebug($"AutoSave npcid:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}");
 
 		if (type != AutoSaveType.PlayerSleep)
 		{
@@ -36,10 +36,7 @@ public class SVAutoSave
 				data.BedPatrolPointName = PLAYER_BED;
 				data.BedPatrolPoint = NpcPatrolPointManager.Instance.GetPoint(data.BedPatrolPointName).GetComponent<NpcPatrolPoint>();
 				data.SetChatTalkLv(4, true);
-				Main.Log.LogInfo(string.Format("ResetNpcBed npcid:{0}({1}), Home:{2}, Bed:{3}, NickName:{4}, PlayerNickName:{5}",
-					data.NpcId, (Define.NPCID)data.NpcId, data.Home, data.BedPatrolPointName,
-					data.NickNameFromPlayerId, data.NickNameToPlayerId
-				));
+				Main.Log.LogInfo($"ResetNpcBed npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}, NickName:{data.NickNameFromPlayerId}, PlayerNickName:{data.NickNameToPlayerId}");
 			}
 		}
 	}

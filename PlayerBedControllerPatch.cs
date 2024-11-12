@@ -14,7 +14,7 @@ public class PlayerBedControllerTrySleep
 		}
 
 		Relation.SetNPC((int)spouses);
-		Main.Log.LogDebug(string.Format("PlayerBedController.DoInteraction npcid:{0}", spouses));
+		Main.Log.LogDebug($"PlayerBedController.DoInteraction npcid:{spouses}");
 	}
 }
 
@@ -32,12 +32,12 @@ public class PlayerBedControllerSleep
 					data.Home = data.statusData.Home;
 					data.BedPatrolPointName = data.statusData.BedPatrolPointName;
 					data.BedPatrolPoint = NpcPatrolPointManager.Instance.GetPoint(data.BedPatrolPointName).GetComponent<NpcPatrolPoint>();
-					Main.Log.LogInfo(string.Format("GoHomeSleep npcid:{0}({1}), Home:{2}, Bed:{3}", data.NpcId, (Define.NPCID)data.NpcId, data.Home, data.BedPatrolPointName));
+					Main.Log.LogInfo($"GoHomeSleep npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}");
 				}
 			}
 		}
 
-		Main.Log.LogDebug(string.Format("PlayerBedController.PlayerSleep npcid:{0}", NpcDataManagerPatch.forceNPCID));
+		Main.Log.LogDebug($"PlayerBedController.PlayerSleep npcid:{NpcDataManagerPatch.forceNPCID}");
 	}
 }
 

@@ -30,7 +30,6 @@ public class ConditionsForLoverJudgmentPatch2
 {
 	static bool Prefix(int npcid, ref bool __result)
 	{
-		// 先完成个人线剧情以及关系检查
 		bool relation = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveStoryProgress", 4), 0, 4) &&
 			NpcDataManager.Instance.LovePointManager.GetLoveLv(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveLevel", 4), 0, 10000));
 
@@ -40,7 +39,7 @@ public class ConditionsForLoverJudgmentPatch2
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.LASTEPISODE)));
 		if (!eventFlag)
 		{
-			Main.Log.LogWarning(string.Format("Events 20, 21, 22, 1250 in progress"));
+			Main.Log.LogWarning("Events 20, 21, 22, 1250 in progress");
 		}
 
 		__result = relation && eventFlag;
@@ -58,7 +57,7 @@ public class ConditionsForLoverJudgmentPatch3
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.FLAG_DATE_RESERVATION_NG)));
 		if (!eventFlag)
 		{
-			Main.Log.LogWarning(string.Format("Events 22, 23 in progress"));
+			Main.Log.LogWarning("Events 22, 23 in progress");
 			__result = 0;
 			return false;
 		}

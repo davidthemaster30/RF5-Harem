@@ -13,7 +13,7 @@ public class NpcSearchColliderTrigger
 			if (data != null && data.Initialized && !data.IsShortPlay && !EventControllerBase.Instance.IsTalking)
 			{
 				Relation.SetNPC(__instance.owner.NpcId);
-				Main.Log.LogDebug(string.Format("NpcSearchCollider.OnTriggerEnter npcid:{0}", __instance.owner.NpcId));
+				Main.Log.LogDebug($"NpcSearchCollider.OnTriggerEnter npcid:{__instance.owner.NpcId}");
 			}
 		}
 	}

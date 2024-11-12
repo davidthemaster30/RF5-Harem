@@ -7,7 +7,7 @@ public class SubEventManagerPatch
 {
 	static bool Prefix(NpcData data, ref bool __result)
 	{
-		Main.Log.LogDebug(string.Format("SubEventManager.CheckCanMarriage npcid:{0}", data?.NpcId));
+		Main.Log.LogDebug($"SubEventManager.CheckCanMarriage npcid:{data?.NpcId}");
 
 		bool relation = (EventControllerBase.Instance.GetNpcLoveStoryProgress(data.NpcId) >= MathRF.Clamp(Main.Config.GetInt("Marriage", "MinLoveStoryProgress", 9), 0, 9) &&
 			NpcDataManager.Instance.LovePointManager.GetLoveLvByNpcData(data) >= MathRF.Clamp(Main.Config.GetInt("Marriage", "MinLoveLevel", 10), 0, 10000));
@@ -47,7 +47,7 @@ public class SubEventManagerPatch2
 {
 	static bool Prefix(NpcData data, ref bool __result)
 	{
-		Main.Log.LogDebug(string.Format("SubEventManager.CheckCanMarriage_ThrowRing npcid:{0}", data?.NpcId));
+		Main.Log.LogDebug($"SubEventManager.CheckCanMarriage_ThrowRing npcid:{data?.NpcId}");
 
 		bool relation = (EventControllerBase.Instance.GetNpcLoveStoryProgress(data.NpcId) >= MathRF.Clamp(Main.Config.GetInt("Marriage", "MinLoveStoryProgress", 8), 0, 8) &&
 			NpcDataManager.Instance.LovePointManager.GetLoveLvByNpcData(data) >= MathRF.Clamp(Main.Config.GetInt("Marriage", "MinLoveLevel", 10), 0, 10000));

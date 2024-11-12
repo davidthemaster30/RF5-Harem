@@ -33,7 +33,7 @@ public class TeleportAreaManagerGetHomeBGMId
 				}
 		}
 
-		Main.Log.LogDebug(string.Format("TeleportAreaManager.GetHomeBGMId bgm:{0}", __result));
+		Main.Log.LogDebug($"TeleportAreaManager.GetHomeBGMId bgm:{__result}");
 		return false;
 	}
 }
@@ -44,7 +44,7 @@ public class TeleportAreaManagerPlayHomeBGM
 	static bool Prefix()
 	{
 		SoundManager.Instance.PlayBGM(TeleportAreaManager.Instance.GetHomeBGMId());
-		Main.Log.LogDebug(string.Format("TeleportAreaManager.PlayHomeBGM bgm:{0}", TeleportAreaManager.Instance.GetHomeBGMId()));
+		Main.Log.LogDebug($"TeleportAreaManager.PlayHomeBGM bgm:{TeleportAreaManager.Instance.GetHomeBGMId()}");
 		return false;
 	}
 }

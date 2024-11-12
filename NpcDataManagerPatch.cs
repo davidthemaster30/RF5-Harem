@@ -150,24 +150,6 @@ public class NpcDataManagerGetLoverNum
 	}
 }
 
-/*
-[HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.IsMoreThanLover))]
-public class NpcDataManagerIsMoreThanLover
-{
-	static bool Prefix(NpcDataManager __instance, int npcid, ref bool __result)
-	{
-		if (NpcDataManagerPatch.hideSpouse)
-			__result = false;
-		else if (NpcDataManagerPatch.forceNPCID >= 2)
-			__result = NpcDataManagerPatch.forceNPCID == npcid && (__instance.GetNpcData(npcid)?.IsSpouses == true || __instance.GetNpcData(npcid)?.IsLover == true);
-		else
-			__result = __instance.GetNpcData(npcid)?.IsSpouses == true || __instance.GetNpcData(npcid)?.IsLover == true;
-
-		return false;
-	}
-}
-*/
-
 [HarmonyPatch(typeof(NpcDataManager), nameof(NpcDataManager.DoMarriage))]
 public class NpcDataManagerMarriage
 {

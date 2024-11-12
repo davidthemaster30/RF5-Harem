@@ -17,7 +17,7 @@ public class EventControllerBaseScript
 			__instance.TargetNpc.NpcData.IsRefused = false;
 		}
 
-		Main.Log.LogDebug(string.Format("EventControllerBase.RunScript npcid:{0}", __instance.TargetNpcId));
+		Main.Log.LogDebug($"EventControllerBase.RunScript npcid:{__instance.TargetNpcId}");
 	}
 }
 
@@ -35,10 +35,7 @@ public class EventControllerBaseTalkType
 			Relation.SetNPC(__instance.TargetNpcId);
 		}
 
-		Main.Log.LogDebug(string.Format("EventControllerBase.GetNpcTalkType npcid:{0} evnpcid:{1}",
-			__instance.TargetNpcId,
-			SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId
-		));
+		Main.Log.LogDebug($"EventControllerBase.GetNpcTalkType npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
 	}
 }
 
@@ -56,10 +53,7 @@ public class EventControllerBaseSelectedMenu
 			Relation.SetNPC(__instance.TargetNpcId);
 		}
 
-		Main.Log.LogDebug(string.Format("EventControllerBase.SelectedMenuGroup npcid:{0} evnpcid:{1}",
-			__instance.TargetNpcId,
-			SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId
-		));
+		Main.Log.LogDebug($"EventControllerBase.SelectedMenuGroup npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
 	}
 }
 

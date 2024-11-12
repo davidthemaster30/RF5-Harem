@@ -12,7 +12,7 @@ public class AdvMainStart
 			Relation.SetNPC(npc.NpcId);
 		}
 
-		Main.Log.LogDebug(string.Format("AdvMain.AdvStart npcid:{0}", npc?.NpcId));
+		Main.Log.LogDebug($"AdvMain.AdvStart npcid:{npc?.NpcId}");
 	}
 }
 
@@ -30,21 +30,20 @@ public class AdvMainReadCommand
 
 		if (__instance.Cmd != null && __instance.Cmd.Arg != null && __instance.Cmd.ArgText != null)
 		{
-			Main.Log.LogDebug(string.Format("AdvMain.ReadCommand npcid:{0} cmdid:{1} arg:{2} args:{3}",
-				npc?.NpcId, (CommandList)__instance.Cmd.CmdID, string.Join(",", __instance.Cmd.Arg), string.Join(",", __instance.Cmd.ArgText)));
+			Main.Log.LogDebug($"AdvMain.ReadCommand npcid:{npc?.NpcId} cmdid:{(CommandList)__instance.Cmd.CmdID} arg:{string.Join(",", __instance.Cmd.Arg)} args:{string.Join(",", __instance.Cmd.ArgText)}");
 		}
 	}
 
 	static void Postfix(AdvMain.WorkList __result)
 	{
 		LastResult = __result;
-		Main.Log.LogDebug(string.Format("AdvMain.ReadCommand result:{0}", __result));
+		Main.Log.LogDebug($"AdvMain.ReadCommand result:{__result}");
 	}
 
 	static Exception Finalizer(Exception __exception, ref AdvMain.WorkList __result)
 	{
 		__result = LastResult;
-		Main.Log.LogDebug(string.Format("AdvMain.ReadCommand Exception:{0}, LastResult:{2}, Stack:{1}", __exception.Message, __exception.StackTrace, __result));
+		Main.Log.LogDebug($"AdvMain.ReadCommand Exception:{__exception.Message}, LastResult:{__result}, Stack:{__exception.StackTrace}");
 		return null;
 	}
 }

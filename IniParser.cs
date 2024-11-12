@@ -73,7 +73,6 @@ public class IniParser
 				if (line.StartsWith("[") && line.EndsWith("]"))
 				{
 					category = line.Substring(1, line.Length - 2);
-					//Main.Log.LogInfo(string.Format("category {0}", category));
 				}
 				else
 				{
@@ -82,7 +81,6 @@ public class IniParser
 					{
 						string key = line.Substring(0, delimiter).Trim();
 						string value = line.Substring(delimiter + 1);
-						//Main.Log.LogInfo(string.Format("category {0} key {1} value {2}", category, key, value));
 
 						if (!data.ContainsKey(category))
 						{
@@ -213,15 +211,17 @@ public class IniParser
 
 	public void Save(string fileName)
 	{
-		using (StreamWriter file = new StreamWriter(fileName, false, Encoding.GetEncoding("utf-8")))
+		using StreamWriter file = new StreamWriter(fileName, false, Encoding.GetEncoding("utf-8"));
+
+		foreach (var category in data)
 		{
-			foreach (var category in data)
+			file.WriteLine($"[{category.Key}]");
+			foreach (var keyValue in category.Value)
 			{
-				file.WriteLine(string.Format("[{0}]", category.Key));
-				foreach (var keyValue in category.Value)
-					file.WriteLine(string.Format("{0}={1}", keyValue.Key, keyValue.Value.stringValue));
-				file.WriteLine();
+				file.WriteLine($"{keyValue.Key}={keyValue.Value.stringValue}");
 			}
+
+			file.WriteLine();
 		}
 	}
 }

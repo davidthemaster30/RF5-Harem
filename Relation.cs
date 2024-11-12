@@ -1,5 +1,5 @@
-﻿
-namespace RF5_Harem;
+﻿namespace RF5_Harem;
+
 public class Relation
 {
 	static int LastPoll = 0;
@@ -21,16 +21,7 @@ public class Relation
 		NpcDataManagerPatch.forceNPCID = 0;
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = Define.NPCID.Ares;
 
-		/*
-		FlagDataStorage.SetScriptFlag(false, (int)Define.GameFlagData.PLAYER_MARRIED);
-		SaveData.SaveDataManager.GameSaveData.StampData.GetStampRecord(StampEnum.Marriage).StampLevel = StampLevel.None;
-		*/
-
-		Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
-			NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
-			NpcDataManagerPatch.forceNPCID, SaveData.SaveDataManager.PlayerData.MarriedNPCID,
-			FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)
-		));
+		Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 	}
 
 	public static void SetNPC(int npcid)
@@ -74,22 +65,14 @@ public class Relation
 				NpcDataManagerPatch.hideLover = true;
 			}
 
-			Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
-				NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
-				NpcDataManagerPatch.forceNPCID, SaveData.SaveDataManager.PlayerData.MarriedNPCID,
-				FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)
-			));
+			Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 			return;
 		}
 
 		NpcDataManagerPatch.forceNPCID = npcid;
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)npcid;
 
-		Main.Log.LogDebug(string.Format("*** hideSpouse:{0}, hideLover:{1}, forceNPCID:{2}, MarriedNPCID:{3}, PLAYER_MARRIED:{4}",
-			NpcDataManagerPatch.hideSpouse, NpcDataManagerPatch.hideLover,
-			NpcDataManagerPatch.forceNPCID, SaveData.SaveDataManager.PlayerData.MarriedNPCID,
-			FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)
-		));
+		Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 	}
 
 	public static int RandomSpouses()
@@ -119,7 +102,6 @@ public class Relation
 			choose = new Random(TimeManager.Instance.ElapsedTime).Next(0, top);
 		}
 
-		// Main.Log.LogInfo(string.Format("Spouses Hit:{0}, npcid:{1}({2})", choose, npcs[choose].NpcId, (Define.NPCID)npcs[choose].NpcId));
 		return npcs[choose].NpcId;
 	}
 }

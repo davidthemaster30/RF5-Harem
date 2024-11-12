@@ -18,6 +18,6 @@ public class CampMenuMainPatch
 		}
 
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)spouses;
-		Main.Log.LogDebug(string.Format("StartCamp npcid:{0}", SaveData.SaveDataManager.PlayerData.MarriedNPCID));
+		Main.Log.LogDebug($"StartCamp npcid:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}");
 	}
 }

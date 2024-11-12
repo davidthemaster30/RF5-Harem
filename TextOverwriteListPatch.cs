@@ -12,6 +12,6 @@ public class TextOverwriteListPatch
 			Relation.SetNPC(speakerId);
 		}
 
-		Main.Log.LogDebug(string.Format("TextOverwriteList.TransformText npcid:{0}", speakerId));
+		Main.Log.LogDebug($"TextOverwriteList.TransformText npcid:{speakerId}");
 	}
 }

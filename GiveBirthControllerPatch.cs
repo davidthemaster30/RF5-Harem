@@ -41,12 +41,7 @@ public class GiveBirthControllerUpdate
 			FlagDataStorage.SetScriptFlag(true, (int)Define.GameFlagData.FLAG_Having_ChildBed);
 		}
 
-		Main.Log.LogDebug(string.Format("GiveBirthController.WakeUpUpdate nowtype:{0}, targetdays:{1}, curdays:{2}, diff:{3}",
-			nowType,
-			SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays,
-			TimeManager.Instance.CurrentDate().LowTime,
-			SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays - TimeManager.Instance.CurrentDate().LowTime
-		));
+		Main.Log.LogDebug($"GiveBirthController.WakeUpUpdate nowtype:{nowType}, targetdays:{SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays}, curdays:{TimeManager.Instance.CurrentDate().LowTime}, diff:{SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays - TimeManager.Instance.CurrentDate().LowTime}");
 		return false;
 	}
 }
