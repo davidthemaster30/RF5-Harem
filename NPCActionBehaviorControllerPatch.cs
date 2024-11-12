@@ -7,7 +7,7 @@ public class NPCActionBehaviorControllerPatch
 {
 	static void Prefix(NPCActionBehaviorController __instance)
 	{
-		if (__instance.NPCOwner != null && __instance.NPCOwner.NPCData != null)
+		if (__instance.NPCOwner is not null && __instance.NPCOwner.NPCData is not null)
 		{
 			if (__instance.NPCOwner.NPCData.NpcId >= 2)
 			{

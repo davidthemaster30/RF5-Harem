@@ -7,7 +7,7 @@ public class AdvMainStart
 {
 	static void Prefix(NpcController npc)
 	{
-		if (npc != null && npc.NpcId >= 2)
+		if (npc is not null && npc.NpcId >= 2)
 		{
 			Relation.SetNPC(npc.NpcId);
 		}
@@ -23,12 +23,12 @@ public class AdvMainReadCommand
 
 	static void Prefix(AdvMain __instance, NpcController npc)
 	{
-		if (npc != null && npc.NpcId >= 2)
+		if (npc is not null && npc.NpcId >= 2)
 		{
 			Relation.SetNPC(npc.NpcId);
 		}
 
-		if (__instance.Cmd != null && __instance.Cmd.Arg != null && __instance.Cmd.ArgText != null)
+		if (__instance.Cmd is not null && __instance.Cmd.Arg is not null && __instance.Cmd.ArgText is not null)
 		{
 			Main.Log.LogDebug($"AdvMain.ReadCommand npcid:{npc?.NpcId} cmdid:{(CommandList)__instance.Cmd.CmdID} arg:{string.Join(",", __instance.Cmd.Arg)} args:{string.Join(",", __instance.Cmd.ArgText)}");
 		}
