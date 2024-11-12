@@ -9,7 +9,7 @@ public class SVAutoSave
 
 	static void Prefix(AutoSaveType type)
 	{
-		long spouses = MathRF.Clamp(Main.Config.GetInt("Spouses", "SaveLogo", 1), 0, 14);
+		long spouses = MathRF.Clamp(Main.SpousesConfig.SaveLogo.Value, 0, 14);
 		if (spouses == 1)
 		{
 			spouses = Relation.RandomSpouses();

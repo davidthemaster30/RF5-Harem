@@ -30,10 +30,10 @@ public class ConditionsForLoverJudgmentPatch2
 {
 	static bool Prefix(int npcid, ref bool __result)
 	{
-		bool relation = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveStoryProgress", 4), 0, 4) &&
-			NpcDataManager.Instance.LovePointManager.GetLoveLv(npcid) >= MathRF.Clamp(Main.Config.GetInt("Lover", "MinLoveLevel", 4), 0, 10000));
+		bool relation = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= MathRF.Clamp(Main.LoverConfig.MinLoveStoryProgress.Value, 0, 4) &&
+			NpcDataManager.Instance.LovePointManager.GetLoveLv(npcid) >= MathRF.Clamp(Main.LoverConfig.MinLoveLevel.Value, 0, 10000));
 
-		bool eventFlag = (!Main.Config.GetBool("Lover", "EventCheck", true) ||
+		bool eventFlag = (!Main.LoverConfig.EventCheck.Value ||
 			(!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.TOWN_EVENT) &&
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.SERIOUS_EVENT) &&
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.LASTEPISODE)));
@@ -52,7 +52,7 @@ public class ConditionsForLoverJudgmentPatch3
 {
 	static bool Prefix(int npcid, ref int __result)
 	{
-		bool eventFlag = (!Main.Config.GetBool("Lover", "DateEventCheck", true) ||
+		bool eventFlag = (!Main.LoverConfig.DateEventCheck.Value ||
 			(!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.TOWN_EVENT) &&
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.FLAG_DATE_RESERVATION_NG)));
 		if (!eventFlag)

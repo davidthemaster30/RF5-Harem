@@ -7,7 +7,7 @@ public class PlayerBedControllerTrySleep
 {
 	static void Prefix()
 	{
-		long spouses = MathRF.Clamp(Main.Config.GetInt("Spouses", "Bedmate", 1), 0, 14);
+		long spouses = MathRF.Clamp(Main.SpousesConfig.Bedmate.Value, 0, 14);
 		if (spouses == 1)
 		{
 			spouses = Relation.RandomSpouses();
@@ -23,7 +23,7 @@ public class PlayerBedControllerSleep
 {
 	static void Prefix()
 	{
-		if (!Main.Config.GetBool("Spouses", "Cohabitation", true))
+		if (!Main.SpousesConfig.Cohabitation.Value)
 		{
 			foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
 			{
@@ -46,7 +46,7 @@ public class PlayerBedControllerJudgment
 {
 	static bool Prefix(ref bool __result)
 	{
-		if (NpcDataManagerPatch.forceNPCID < 2 || !Main.Config.GetBool("Spouses", "ForceBedmate", true))
+		if (NpcDataManagerPatch.forceNPCID < 2 || !Main.SpousesConfig.ForceBedmate.Value)
 		{
 			return true;
 		}

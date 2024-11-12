@@ -6,7 +6,7 @@ public class SubEventMasterDataBasePatch
 {
 	static bool Prefix(ref bool __result)
 	{
-		__result = Main.Config.GetBool("Lover", "UnlimitedLoveEvent", true);
+		__result = Main.LoverConfig.UnlimitedLoveEvent.Value;
 		return false;
 	}
 }

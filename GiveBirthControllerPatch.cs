@@ -36,7 +36,7 @@ public class GiveBirthControllerUpdate
 			__instance.IsGiveBirthTalkOn = true;
 		}
 
-		if (Main.Config.GetBool("Spouses", "ChildBed", false) && __instance.IsGiveBirthTalkOn && SaveData.SaveDataManager.NpcData.GiveBirthParams.CanChildBedBuy())
+		if (Main.SpousesConfig.ChildBed.Value && __instance.IsGiveBirthTalkOn && SaveData.SaveDataManager.NpcData.GiveBirthParams.CanChildBedBuy())
 		{
 			FlagDataStorage.SetScriptFlag(true, (int)Define.GameFlagData.FLAG_Having_ChildBed);
 		}

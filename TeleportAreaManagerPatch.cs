@@ -7,7 +7,7 @@ public class TeleportAreaManagerGetHomeBGMId
 {
 	static bool Prefix(ref BGMID __result)
 	{
-		switch (MathRF.Clamp(Main.Config.GetInt("Spouses", "HomeBGM", 1), 1, 3))
+		switch (MathRF.Clamp(Main.SpousesConfig.HomeBGM.Value, 1, 3))
 		{
 			case 1:
 				{
@@ -48,15 +48,3 @@ public class TeleportAreaManagerPlayHomeBGM
 		return false;
 	}
 }
-
-/*
-[HarmonyPatch(typeof(TeleportAreaManager), nameof(TeleportAreaManager.SetSceneBgm))]
-public class TeleportAreaManagerSetSceneBgm
-{
-	static void Prefix()
-	{
-		if (NpcDataManagerPatch.hideSpouse)
-			Relation.SetNPC(Relation.RandomSpouses());
-	}
-}
-*/

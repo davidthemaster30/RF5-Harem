@@ -39,7 +39,7 @@ public class Relation
 			return;
 		}
 
-		if (Main.Config.GetBool("Spouses", "UnrelatedNPCDialogue", true) && (ChildNPCIDs.Contains((Define.NPCID)npcid) ||
+		if (Main.SpousesConfig.UnrelatedNPCDialogue.Value && (ChildNPCIDs.Contains((Define.NPCID)npcid) ||
 			!EventControllerBase.Instance.MarriageCandidateList.Contains((Define.NPCID)npcid)))
 		{
 			npcid = oldNpcId < 2 ? RandomSpouses() : oldNpcId;
@@ -93,7 +93,7 @@ public class Relation
 		}
 
 		int choose;
-		if (Main.Config.GetBool("Spouses", "Alternation", true))
+		if (Main.SpousesConfig.Alternation.Value)
 		{
 			choose = Math.Abs(LastPoll++ % (top + 1));
 		}

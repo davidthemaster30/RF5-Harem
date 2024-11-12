@@ -12,7 +12,7 @@ public class EventControllerBaseScript
 			Relation.SetNPC(__instance.TargetNpcId);
 		}
 
-		if (Main.Config.GetBool("Lover", "DontRefused", false) && __instance.TargetNpc?.NpcData?.IsRefused == true)
+		if (Main.LoverConfig.DontRefused.Value && __instance.TargetNpc?.NpcData?.IsRefused == true)
 		{
 			__instance.TargetNpc.NpcData.IsRefused = false;
 		}
