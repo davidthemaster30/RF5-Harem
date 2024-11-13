@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     <AssemblyName>RF5_Harem</AssemblyName>
     <Description>RF5_Harem</Description>
     <Product>RF5_Harem</Product>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <LangVersion>latest</LangVersion>
     <RootNamespace>RF5_Harem</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -16,14 +17,21 @@
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="BepInEx.Core" Version="6.0.0-be.577" />
     <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.577" />
     <PackageReference Include="BepInEx.Unity" Version="6.0.0-be.577" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="BepInEx.Core" Version="6.0.0-be.*" />
+    <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.*" />
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <Reference Include="Assembly-CSharp">
       <HintPath>libs\v577\Assembly-CSharp.dll</HintPath>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -34,6 +42,21 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>libs\v577\UnityEngine.CoreModule.dll</HintPath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>libs\v674\Assembly-CSharp.dll</HintPath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>libs\v674\Il2Cppmscorlib.dll</HintPath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>libs\v674\UnityEngine.CoreModule.dll</HintPath>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Reference>
   </ItemGroup>
