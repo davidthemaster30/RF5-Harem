@@ -1,13 +1,14 @@
 ﻿using HarmonyLib;
+using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(GiveBirthController), nameof(GiveBirthController.WakeUpUpdate))]
-public class GiveBirthControllerUpdate
+internal static class GiveBirthControllerUpdate
 {
-	static bool Prefix(GiveBirthController __instance, ref bool __result)
+	internal static bool Prefix(GiveBirthController __instance, ref bool __result)
 	{
-		if (Relation.RandomSpouses() < 2)
+		if (Relation.RandomSpouses() < NpcDataManagerPatch.MinNPCId)
 		{
 			__result = false;
 			return false;
@@ -36,7 +37,7 @@ public class GiveBirthControllerUpdate
 			__instance.IsGiveBirthTalkOn = true;
 		}
 
-		if (Main.SpousesConfig.ChildBed.Value && __instance.IsGiveBirthTalkOn && SaveData.SaveDataManager.NpcData.GiveBirthParams.CanChildBedBuy())
+		if (SpousesConfig.ChildBed.Value && __instance.IsGiveBirthTalkOn && SaveData.SaveDataManager.NpcData.GiveBirthParams.CanChildBedBuy())
 		{
 			FlagDataStorage.SetScriptFlag(true, (int)Define.GameFlagData.FLAG_Having_ChildBed);
 		}
@@ -47,9 +48,9 @@ public class GiveBirthControllerUpdate
 }
 
 [HarmonyPatch(typeof(GiveBirthController), nameof(GiveBirthController.DoMarriage))]
-class GiveBirthControllerDoMarriage
+internal static class GiveBirthControllerDoMarriage
 {
-	static bool Prefix(GiveBirthController __instance)
+	internal static bool Prefix(GiveBirthController __instance)
 	{
 		NpcDataManager.Instance.GetSpouseNpcData()?.SetTalkedTime(Define.NpcTalkedType.BirthChild, TimeManager.Instance.CurrentTimeInt);
 		return SaveData.SaveDataManager.NpcData.GiveBirthParams.NowType <= 0;

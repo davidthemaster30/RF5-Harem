@@ -1,29 +1,26 @@
 ﻿using HarmonyLib;
+using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.DoInteraction), typeof(HumanController))]
-public class PlayerBedControllerTrySleep
+internal static class PlayerBedControllerTrySleep
 {
-	static void Prefix()
+	internal static void Prefix()
 	{
-		long spouses = MathRF.Clamp(Main.SpousesConfig.Bedmate.Value, 0, 14);
-		if (spouses == 1)
-		{
-			spouses = Relation.RandomSpouses();
-		}
+		int spouse = SpousesConfig.Bedmate.Value == 1 ? Relation.RandomSpouses() : SpousesConfig.Bedmate.Value;
 
-		Relation.SetNPC((int)spouses);
-		Main.Log.LogDebug($"PlayerBedController.DoInteraction npcid:{spouses}");
+		Relation.SetNPC(spouse);
+		Main.Log.LogDebug($"PlayerBedController.DoInteraction npcid:{spouse}");
 	}
 }
 
 [HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.PlayerSleep))]
-public class PlayerBedControllerSleep
+internal static class PlayerBedControllerSleep
 {
-	static void Prefix()
+	internal static void Prefix()
 	{
-		if (!Main.SpousesConfig.Cohabitation.Value)
+		if (!SpousesConfig.Cohabitation.Value)
 		{
 			foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
 			{
@@ -42,11 +39,11 @@ public class PlayerBedControllerSleep
 }
 
 [HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.BedJudgment))]
-public class PlayerBedControllerJudgment
+internal static class PlayerBedControllerJudgment
 {
-	static bool Prefix(ref bool __result)
+	internal static bool Prefix(ref bool __result)
 	{
-		if (NpcDataManagerPatch.forceNPCID < 2 || !Main.SpousesConfig.ForceBedmate.Value)
+		if (!NpcDataManagerPatch.ForcedNPCisNotPlayer || !SpousesConfig.ForceBedmate.Value)
 		{
 			return true;
 		}
@@ -55,4 +52,3 @@ public class PlayerBedControllerJudgment
 		return false;
 	}
 }
-

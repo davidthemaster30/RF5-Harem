@@ -1,14 +1,15 @@
 ﻿using HarmonyLib;
+using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckCanbeLoverNPCID))]
-public class ConditionsForLoverJudgmentPatch
+internal static class ConditionsForLoverJudgmentPatch
 {
-	static bool Prefix(Define.NPCID npcid, ref bool __result)
+	internal static bool Prefix(Define.NPCID npcid, ref bool __result)
 	{
 		NpcData data = NpcDataManager.Instance.GetNpcData(npcid);
-		if (data == null)
+		if (data is null)
 		{
 			__result = false;
 		}
@@ -26,17 +27,17 @@ public class ConditionsForLoverJudgmentPatch
 }
 
 [HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckConditionsForLoverJudgment))]
-public class ConditionsForLoverJudgmentPatch2
+internal static class ConditionsForLoverJudgmentPatch2
 {
-	static bool Prefix(int npcid, ref bool __result)
+	internal static bool Prefix(int npcid, ref bool __result)
 	{
-		bool relation = (EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= MathRF.Clamp(Main.LoverConfig.MinLoveStoryProgress.Value, 0, 4) &&
-			NpcDataManager.Instance.LovePointManager.GetLoveLv(npcid) >= MathRF.Clamp(Main.LoverConfig.MinLoveLevel.Value, 0, 10000));
+		bool relation = EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= LoverConfig.MinLoveStoryProgress.Value &&
+			NpcDataManager.Instance.LovePointManager.GetLoveLv(npcid) >= LoverConfig.MinLoveLevel.Value;
 
-		bool eventFlag = (!Main.LoverConfig.EventCheck.Value ||
+		bool eventFlag = !LoverConfig.EventCheck.Value ||
 			(!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.TOWN_EVENT) &&
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.SERIOUS_EVENT) &&
-			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.LASTEPISODE)));
+			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.LASTEPISODE));
 		if (!eventFlag)
 		{
 			Main.Log.LogWarning("Events 20, 21, 22, 1250 in progress");
@@ -48,13 +49,13 @@ public class ConditionsForLoverJudgmentPatch2
 }
 
 [HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckLoveEventDateJudgment))]
-public class ConditionsForLoverJudgmentPatch3
+internal static class ConditionsForLoverJudgmentPatch3
 {
-	static bool Prefix(int npcid, ref int __result)
+	internal static bool Prefix(int npcid, ref int __result)
 	{
-		bool eventFlag = (!Main.LoverConfig.DateEventCheck.Value ||
+		bool eventFlag = !LoverConfig.DateEventCheck.Value ||
 			(!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.TOWN_EVENT) &&
-			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.FLAG_DATE_RESERVATION_NG)));
+			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.FLAG_DATE_RESERVATION_NG));
 		if (!eventFlag)
 		{
 			Main.Log.LogWarning("Events 22, 23 in progress");

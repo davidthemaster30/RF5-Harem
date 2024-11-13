@@ -3,13 +3,13 @@
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(NPCActionBehaviorController), nameof(NPCActionBehaviorController.GetDataList))]
-public class NPCActionBehaviorControllerPatch
+internal static class NPCActionBehaviorControllerPatch
 {
-	static void Prefix(NPCActionBehaviorController __instance)
+	internal static void Prefix(NPCActionBehaviorController __instance)
 	{
 		if (__instance.NPCOwner is not null && __instance.NPCOwner.NPCData is not null)
 		{
-			if (__instance.NPCOwner.NPCData.NpcId >= 2)
+			if (__instance.NPCOwner.NPCData.NpcId >= NpcDataManagerPatch.MinNPCId)
 			{
 				Relation.SetNPC(__instance.NPCOwner.NPCData.NpcId);
 			}

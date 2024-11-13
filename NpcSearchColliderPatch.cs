@@ -3,9 +3,9 @@
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(NpcSearchCollider), nameof(NpcSearchCollider.OnTriggerEnter))]
-public class NpcSearchColliderTrigger
+internal class NpcSearchColliderTrigger
 {
-	static void Prefix(NpcSearchCollider __instance)
+	internal static void Prefix(NpcSearchCollider __instance)
 	{
 		if (__instance.owner.NpcId >= 2)
 		{

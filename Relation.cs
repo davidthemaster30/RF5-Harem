@@ -1,30 +1,34 @@
-﻿namespace RF5_Harem;
+﻿using System.Collections.ObjectModel;
+using Define;
+using RF5_Harem.Configuration;
 
-public class Relation
+namespace RF5_Harem;
+
+internal static class Relation
 {
-	static int LastPoll = 0;
-	static HashSet<Define.NPCID> ChildNPCIDs = new HashSet<Define.NPCID> {
-			Define.NPCID.Baby,
-			Define.NPCID.ChildBoy,
-			Define.NPCID.ChildBoy1,
-			Define.NPCID.ChildBoy2,
-			Define.NPCID.ChildBoy3,
-			Define.NPCID.ChildGirl,
-			Define.NPCID.ChildGirl1,
-			Define.NPCID.ChildGirl2,
-			Define.NPCID.ChildGirl3,
-		};
+	private static int LastPoll = 0;
+	internal static readonly ReadOnlyCollection<NPCID> ChildNPCIDs = new ReadOnlyCollection<NPCID>([
+			NPCID.Baby,
+			NPCID.ChildBoy,
+			NPCID.ChildBoy1,
+			NPCID.ChildBoy2,
+			NPCID.ChildBoy3,
+			NPCID.ChildGirl,
+			NPCID.ChildGirl1,
+			NPCID.ChildGirl2,
+			NPCID.ChildGirl3
+		]);
 
-	public static void HideSpouse()
+	internal static void HideSpouse()
 	{
 		NpcDataManagerPatch.hideSpouse = true;
 		NpcDataManagerPatch.forceNPCID = 0;
-		SaveData.SaveDataManager.PlayerData.MarriedNPCID = Define.NPCID.Ares;
+		SaveData.SaveDataManager.PlayerData.MarriedNPCID = NPCID.Ares;
 
 		Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 	}
 
-	public static void SetNPC(int npcid)
+	internal static void SetNPC(int npcid)
 	{
 		int oldNpcId = NpcDataManagerPatch.forceNPCID;
 
@@ -32,18 +36,18 @@ public class Relation
 		NpcDataManagerPatch.hideLover = false;
 		NpcDataManagerPatch.forceNPCID = 0;
 
-		if (npcid < 2)
+		if (npcid < NpcDataManagerPatch.MinNPCId)
 		{
 			HideSpouse();
 			NpcDataManagerPatch.hideLover = true;
 			return;
 		}
 
-		if (Main.SpousesConfig.UnrelatedNPCDialogue.Value && (ChildNPCIDs.Contains((Define.NPCID)npcid) ||
-			!EventControllerBase.Instance.MarriageCandidateList.Contains((Define.NPCID)npcid)))
+		if (SpousesConfig.UnrelatedNPCDialogue.Value && (ChildNPCIDs.Contains((NPCID)npcid) ||
+			!EventControllerBase.Instance.MarriageCandidateList.Contains((NPCID)npcid)))
 		{
-			npcid = oldNpcId < 2 ? RandomSpouses() : oldNpcId;
-			if (npcid < 2)
+			npcid = oldNpcId < NpcDataManagerPatch.MinNPCId ? RandomSpouses() : oldNpcId;
+			if (npcid < NpcDataManagerPatch.MinNPCId)
 			{
 				HideSpouse();
 				NpcDataManagerPatch.hideLover = true;
@@ -54,7 +58,6 @@ public class Relation
 		if (!NpcDataManager.Instance.IsSpouseNpc(npcid))
 		{
 			HideSpouse();
-
 
 			if (NpcDataManager.Instance.IsLover(npcid))
 			{
@@ -75,33 +78,27 @@ public class Relation
 		Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 	}
 
-	public static int RandomSpouses()
+	internal static int RandomSpouses()
 	{
-		int top = -1;
-		NpcData[] npcs = new NpcData[(int)Define.NPCID.Max];
-		foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
+		List<int> spouses = new List<int>();
+
+		for (int i = 0; i <= NpcDataManagerPatch.MaxNPCId; i++)
 		{
-			if (data.IsSpouses)
+			if (NpcDataManager.Instance.NpcDatas[i].IsSpouses)
 			{
-				npcs[++top] = data;
+				spouses.Add(NpcDataManager.Instance.NpcDatas[i].NpcId);
 			}
 		}
 
-		if (top < 0)
+		if (spouses.Count == 0)
 		{
 			return 0;
 		}
 
-		int choose;
-		if (Main.SpousesConfig.Alternation.Value)
-		{
-			choose = Math.Abs(LastPoll++ % (top + 1));
-		}
-		else
-		{
-			choose = new Random(TimeManager.Instance.ElapsedTime).Next(0, top);
-		}
+		int choose = SpousesConfig.Alternation.Value
+			? LastPoll++ % spouses.Count
+			: new Random(TimeManager.Instance.ElapsedTime).Next(0, spouses.Count);
 
-		return npcs[choose].NpcId;
+		return spouses[choose];
 	}
 }

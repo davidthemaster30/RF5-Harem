@@ -1,18 +1,19 @@
 ﻿using HarmonyLib;
+using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.RunScript))]
-public class EventControllerBaseScript
+internal static class EventControllerBaseScript
 {
-	static void Prefix(EventControllerBase __instance)
+	internal static void Prefix(EventControllerBase __instance)
 	{
-		if (__instance.TargetNpcId >= 2)
+		if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
 		{
 			Relation.SetNPC(__instance.TargetNpcId);
 		}
 
-		if (Main.LoverConfig.DontRefused.Value && __instance.TargetNpc?.NpcData?.IsRefused == true)
+		if (LoverConfig.CantRefuse.Value && __instance.TargetNpc?.NpcData?.IsRefused == true)
 		{
 			__instance.TargetNpc.NpcData.IsRefused = false;
 		}
@@ -22,15 +23,15 @@ public class EventControllerBaseScript
 }
 
 [HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.GetNpcTalkType))]
-public class EventControllerBaseTalkType
+internal static class EventControllerBaseTalkType
 {
-	static void Prefix(EventControllerBase __instance)
+	internal static void Prefix(EventControllerBase __instance)
 	{
-		if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= 2)
+		if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
 		{
 			Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
 		}
-		else if (__instance.TargetNpcId >= 2)
+		else if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
 		{
 			Relation.SetNPC(__instance.TargetNpcId);
 		}
@@ -40,15 +41,15 @@ public class EventControllerBaseTalkType
 }
 
 [HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.SelectedMenuGroup))]
-public class EventControllerBaseSelectedMenu
+internal static class EventControllerBaseSelectedMenu
 {
-	static void Prefix(EventControllerBase __instance)
+	internal static void Prefix(EventControllerBase __instance)
 	{
-		if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= 2)
+		if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
 		{
 			Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
 		}
-		else if (__instance.TargetNpcId >= 2)
+		else if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
 		{
 			Relation.SetNPC(__instance.TargetNpcId);
 		}
@@ -58,9 +59,9 @@ public class EventControllerBaseSelectedMenu
 }
 
 [HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.MarriageInit))]
-public class EventControllerBaseMarriageInit
+internal static class EventControllerBaseMarriageInit
 {
-	static bool Prefix()
+	internal static bool Prefix()
 	{
 		return false;
 	}

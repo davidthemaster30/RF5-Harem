@@ -1,25 +1,19 @@
 ﻿using HarmonyLib;
+using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(TeleportAreaManager), nameof(TeleportAreaManager.GetHomeBGMId))]
-public class TeleportAreaManagerGetHomeBGMId
+internal static class TeleportAreaManagerGetHomeBGMId
 {
-	static bool Prefix(ref BGMID __result)
+	internal static bool Prefix(ref BGMID __result)
 	{
-		switch (MathRF.Clamp(Main.SpousesConfig.HomeBGM.Value, 1, 3))
+		switch (SpousesConfig.HomeBGM.Value)
 		{
 			case 1:
 				{
-					if (Relation.RandomSpouses() >= 2)
-					{
-						__result = BGMID.BGM_HeroHouse_002;
-					}
-					else
-					{
-						__result = BGMID.BGM_HeroHouse_001;
-					}
-					break;
+					__result = Relation.RandomSpouses() >= NpcDataManagerPatch.MinNPCId ? BGMID.BGM_HeroHouse_002 : BGMID.BGM_HeroHouse_001;
+                    break;
 				}
 			case 2:
 				{
@@ -39,9 +33,9 @@ public class TeleportAreaManagerGetHomeBGMId
 }
 
 [HarmonyPatch(typeof(TeleportAreaManager), nameof(TeleportAreaManager.PlayHomeBGM))]
-public class TeleportAreaManagerPlayHomeBGM
+internal static class TeleportAreaManagerPlayHomeBGM
 {
-	static bool Prefix()
+	internal static bool Prefix()
 	{
 		SoundManager.Instance.PlayBGM(TeleportAreaManager.Instance.GetHomeBGMId());
 		Main.Log.LogDebug($"TeleportAreaManager.PlayHomeBGM bgm:{TeleportAreaManager.Instance.GetHomeBGMId()}");

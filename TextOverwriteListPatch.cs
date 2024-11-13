@@ -3,11 +3,11 @@
 namespace RF5_Harem;
 
 [HarmonyPatch(typeof(TextOverwriteList), nameof(TextOverwriteList.TransformText))]
-public class TextOverwriteListPatch
+internal static class TextOverwriteListPatch
 {
-	static void Prefix(int speakerId)
+	internal static void Prefix(int speakerId)
 	{
-		if (speakerId >= 2)
+		if (speakerId >= NpcDataManagerPatch.MinNPCId)
 		{
 			Relation.SetNPC(speakerId);
 		}
