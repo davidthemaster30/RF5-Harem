@@ -3,9 +3,10 @@ using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckCanbeLoverNPCID))]
+[HarmonyPatch]
 internal static class ConditionsForLoverJudgmentPatch
 {
+	[HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckCanbeLoverNPCID))]
 	internal static bool Prefix(Define.NPCID npcid, ref bool __result)
 	{
 		NpcData data = NpcDataManager.Instance.GetNpcData(npcid);
@@ -24,11 +25,8 @@ internal static class ConditionsForLoverJudgmentPatch
 
 		return false;
 	}
-}
 
-[HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckConditionsForLoverJudgment))]
-internal static class ConditionsForLoverJudgmentPatch2
-{
+	[HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckConditionsForLoverJudgment))]
 	internal static bool Prefix(int npcid, ref bool __result)
 	{
 		bool relation = EventControllerBase.Instance.GetNpcLoveStoryProgress(npcid) >= LoverConfig.MinLoveStoryProgress.Value &&
@@ -46,11 +44,8 @@ internal static class ConditionsForLoverJudgmentPatch2
 		__result = relation && eventFlag;
 		return false;
 	}
-}
 
-[HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckLoveEventDateJudgment))]
-internal static class ConditionsForLoverJudgmentPatch3
-{
+	[HarmonyPatch(typeof(ConditionsForLoverJudgment), nameof(ConditionsForLoverJudgment.CheckLoveEventDateJudgment))]
 	internal static bool Prefix(int npcid, ref int __result)
 	{
 		bool eventFlag = !LoverConfig.DateEventCheck.Value ||

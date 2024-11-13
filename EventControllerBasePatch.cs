@@ -3,66 +3,72 @@ using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.RunScript))]
-internal static class EventControllerBaseScript
+[HarmonyPatch]
+internal static class EventControllerBasePatch
 {
-	internal static void Prefix(EventControllerBase __instance)
+	[HarmonyPatch]
+	internal static class EventControllerBaseScript
 	{
-		if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+		[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.RunScript))]
+		internal static void Prefix(EventControllerBase __instance)
 		{
-			Relation.SetNPC(__instance.TargetNpcId);
-		}
+			if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+			{
+				Relation.SetNPC(__instance.TargetNpcId);
+			}
 
-		if (LoverConfig.CantRefuse.Value && __instance.TargetNpc?.NpcData?.IsRefused == true)
-		{
-			__instance.TargetNpc.NpcData.IsRefused = false;
-		}
+			if (LoverConfig.CantRefuse.Value && __instance.TargetNpc?.NpcData?.IsRefused == true)
+			{
+				__instance.TargetNpc.NpcData.IsRefused = false;
+			}
 
-		Main.Log.LogDebug($"EventControllerBase.RunScript npcid:{__instance.TargetNpcId}");
+			Main.Log.LogDebug($"EventControllerBase.RunScript npcid:{__instance.TargetNpcId}");
+		}
 	}
-}
-
-[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.GetNpcTalkType))]
-internal static class EventControllerBaseTalkType
-{
-	internal static void Prefix(EventControllerBase __instance)
+	[HarmonyPatch]
+	internal static class EventControllerBaseTalkType
 	{
-		if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+		[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.GetNpcTalkType))]
+		internal static void Prefix(EventControllerBase __instance)
 		{
-			Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
-		}
-		else if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
-		{
-			Relation.SetNPC(__instance.TargetNpcId);
-		}
+			if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+			{
+				Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
+			}
+			else if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+			{
+				Relation.SetNPC(__instance.TargetNpcId);
+			}
 
-		Main.Log.LogDebug($"EventControllerBase.GetNpcTalkType npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
+			Main.Log.LogDebug($"EventControllerBase.GetNpcTalkType npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
+		}
 	}
-}
+	[HarmonyPatch]
 
-[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.SelectedMenuGroup))]
-internal static class EventControllerBaseSelectedMenu
-{
-	internal static void Prefix(EventControllerBase __instance)
+	internal static class EventControllerBaseSelectedMenu
 	{
-		if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+		[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.SelectedMenuGroup))]
+		internal static void Prefix(EventControllerBase __instance)
 		{
-			Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
-		}
-		else if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
-		{
-			Relation.SetNPC(__instance.TargetNpcId);
-		}
+			if (SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+			{
+				Relation.SetNPC(SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId);
+			}
+			else if (__instance.TargetNpcId >= NpcDataManagerPatch.MinNPCId)
+			{
+				Relation.SetNPC(__instance.TargetNpcId);
+			}
 
-		Main.Log.LogDebug($"EventControllerBase.SelectedMenuGroup npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
+			Main.Log.LogDebug($"EventControllerBase.SelectedMenuGroup npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
+		}
 	}
-}
-
-[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.MarriageInit))]
-internal static class EventControllerBaseMarriageInit
-{
-	internal static bool Prefix()
+	[HarmonyPatch]
+	internal static class EventControllerBaseMarriageInit
 	{
-		return false;
+		[HarmonyPatch(typeof(EventControllerBase), nameof(EventControllerBase.MarriageInit))]
+		internal static bool Prefix()
+		{
+			return false;
+		}
 	}
 }

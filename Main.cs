@@ -1,8 +1,16 @@
-﻿using BepInEx;
-using BepInEx.IL2CPP;
+﻿using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using RF5_Harem.Configuration;
+
+#if (NETSTANDARD2_1)
+using BepInEx.IL2CPP;
+#endif
+
+#if (NET6_0)
+using BepInEx.Unity.IL2CPP;
+#endif
 
 namespace RF5_Harem;
 
@@ -11,22 +19,25 @@ namespace RF5_Harem;
 public class Main : BasePlugin
 {
 	#region PluginInfo
-	private const string GUID = "C9A56862-DFB2-8BA7-D503-A8DE4D24068B";
+	private const string GUID = "RF5_Harem";
 	private const string NAME = "RF5_Harem";
 	private const string VERSION = "1.2.0";
 	private const string GAME_PROCESS = "Rune Factory 5.exe";
 	#endregion
 
-	static public new ManualLogSource Log;
+	internal static readonly ManualLogSource Log = BepInEx.Logging.Logger.CreateLogSource("RF5Harem");
 
 	public override void Load()
 	{
-		Log = base.Log;
+		// Plugin startup logic
+        Log.LogInfo($"Plugin {NAME} is loaded!");
 
+        // Config
 		LoverConfig.Load(Config);
 		MarriageConfig.Load(Config);
 		SpousesConfig.Load(Config);
 
-		new Harmony(GUID).PatchAll();
+		var assembly = Assembly.GetExecutingAssembly();
+		Harmony.CreateAndPatchAll(assembly);
 	}
 }

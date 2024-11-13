@@ -2,9 +2,10 @@
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(TextOverwriteList), nameof(TextOverwriteList.TransformText))]
+[HarmonyPatch]
 internal static class TextOverwriteListPatch
 {
+	[HarmonyPatch(typeof(TextOverwriteList), nameof(TextOverwriteList.TransformText))]
 	internal static void Prefix(int speakerId)
 	{
 		if (speakerId >= NpcDataManagerPatch.MinNPCId)

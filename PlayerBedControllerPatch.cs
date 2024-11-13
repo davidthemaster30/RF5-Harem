@@ -3,52 +3,59 @@ using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.DoInteraction), typeof(HumanController))]
-internal static class PlayerBedControllerTrySleep
+[HarmonyPatch]
+internal static class PlayerBedControllerPatch
 {
-	internal static void Prefix()
+	[HarmonyPatch]
+	internal static class PlayerBedControllerTrySleep
 	{
-		int spouse = SpousesConfig.Bedmate.Value == 1 ? Relation.RandomSpouses() : SpousesConfig.Bedmate.Value;
-
-		Relation.SetNPC(spouse);
-		Main.Log.LogDebug($"PlayerBedController.DoInteraction npcid:{spouse}");
-	}
-}
-
-[HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.PlayerSleep))]
-internal static class PlayerBedControllerSleep
-{
-	internal static void Prefix()
-	{
-		if (!SpousesConfig.Cohabitation.Value)
+		[HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.DoInteraction), typeof(HumanController))]
+		internal static void Prefix()
 		{
-			foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
+			int spouse = SpousesConfig.Bedmate.Value == 1 ? Relation.RandomSpouses() : SpousesConfig.Bedmate.Value;
+
+			Relation.SetNPC(spouse);
+			Main.Log.LogDebug($"PlayerBedController.DoInteraction npcid:{spouse}");
+		}
+	}
+
+	[HarmonyPatch]
+	internal static class PlayerBedControllerSleep
+	{
+		[HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.PlayerSleep))]
+		internal static void Prefix()
+		{
+			if (!SpousesConfig.Cohabitation.Value)
 			{
-				if (data.IsSpouses && data.NpcId != NpcDataManagerPatch.forceNPCID)
+				foreach (NpcData data in NpcDataManager.Instance.NpcDatas)
 				{
-					data.Home = data.statusData.Home;
-					data.BedPatrolPointName = data.statusData.BedPatrolPointName;
-					data.BedPatrolPoint = NpcPatrolPointManager.Instance.GetPoint(data.BedPatrolPointName).GetComponent<NpcPatrolPoint>();
-					Main.Log.LogInfo($"GoHomeSleep npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}");
+					if (data.IsSpouses && data.NpcId != NpcDataManagerPatch.forceNPCID)
+					{
+						data.Home = data.statusData.Home;
+						data.BedPatrolPointName = data.statusData.BedPatrolPointName;
+						data.BedPatrolPoint = NpcPatrolPointManager.Instance.GetPoint(data.BedPatrolPointName).GetComponent<NpcPatrolPoint>();
+						Main.Log.LogInfo($"GoHomeSleep npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}");
+					}
 				}
 			}
-		}
 
-		Main.Log.LogDebug($"PlayerBedController.PlayerSleep npcid:{NpcDataManagerPatch.forceNPCID}");
+			Main.Log.LogDebug($"PlayerBedController.PlayerSleep npcid:{NpcDataManagerPatch.forceNPCID}");
+		}
 	}
-}
 
-[HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.BedJudgment))]
-internal static class PlayerBedControllerJudgment
-{
-	internal static bool Prefix(ref bool __result)
+	[HarmonyPatch]
+	internal static class PlayerBedControllerJudgment
 	{
-		if (!NpcDataManagerPatch.ForcedNPCisNotPlayer || !SpousesConfig.ForceBedmate.Value)
+		[HarmonyPatch(typeof(PlayerBedController), nameof(PlayerBedController.BedJudgment))]
+		internal static bool Prefix(ref bool __result)
 		{
-			return true;
-		}
+			if (!NpcDataManagerPatch.ForcedNPCisNotPlayer || !SpousesConfig.ForceBedmate.Value)
+			{
+				return true;
+			}
 
-		__result = true;
-		return false;
+			__result = true;
+			return false;
+		}
 	}
 }

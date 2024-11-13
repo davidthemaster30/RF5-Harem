@@ -3,9 +3,10 @@ using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(GiveBirthController), nameof(GiveBirthController.WakeUpUpdate))]
-internal static class GiveBirthControllerUpdate
+[HarmonyPatch]
+internal static class GiveBirthControllerPatch
 {
+	[HarmonyPatch(typeof(GiveBirthController), nameof(GiveBirthController.WakeUpUpdate))]
 	internal static bool Prefix(GiveBirthController __instance, ref bool __result)
 	{
 		if (Relation.RandomSpouses() < NpcDataManagerPatch.MinNPCId)
@@ -45,11 +46,8 @@ internal static class GiveBirthControllerUpdate
 		Main.Log.LogDebug($"GiveBirthController.WakeUpUpdate nowtype:{nowType}, targetdays:{SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays}, curdays:{TimeManager.Instance.CurrentDate().LowTime}, diff:{SaveData.SaveDataManager.NpcData.GiveBirthParams.Targetdays - TimeManager.Instance.CurrentDate().LowTime}");
 		return false;
 	}
-}
 
-[HarmonyPatch(typeof(GiveBirthController), nameof(GiveBirthController.DoMarriage))]
-internal static class GiveBirthControllerDoMarriage
-{
+	[HarmonyPatch(typeof(GiveBirthController), nameof(GiveBirthController.DoMarriage))]
 	internal static bool Prefix(GiveBirthController __instance)
 	{
 		NpcDataManager.Instance.GetSpouseNpcData()?.SetTalkedTime(Define.NpcTalkedType.BirthChild, TimeManager.Instance.CurrentTimeInt);

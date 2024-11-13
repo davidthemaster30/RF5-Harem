@@ -2,9 +2,10 @@
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(NPCActionBehaviorController), nameof(NPCActionBehaviorController.GetDataList))]
+[HarmonyPatch]
 internal static class NPCActionBehaviorControllerPatch
 {
+	[HarmonyPatch(typeof(NPCActionBehaviorController), nameof(NPCActionBehaviorController.GetDataList))]
 	internal static void Prefix(NPCActionBehaviorController __instance)
 	{
 		if (__instance.NPCOwner is not null && __instance.NPCOwner.NPCData is not null)

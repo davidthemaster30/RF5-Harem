@@ -3,11 +3,12 @@ using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(SV), nameof(SV.AutoSave))]
-internal static class SVAutoSave
+[HarmonyPatch]
+internal static class SVPatch
 {
 	private const string PLAYER_BED = "00_Police_b7";
 
+	[HarmonyPatch(typeof(SV), nameof(SV.AutoSave))]
 	internal static void Prefix(AutoSaveType type)
 	{
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)(SpousesConfig.SaveLogo.Value == 1 ? Relation.RandomSpouses() : SpousesConfig.SaveLogo.Value);

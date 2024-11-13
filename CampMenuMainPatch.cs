@@ -3,9 +3,10 @@ using RF5_Harem.Configuration;
 
 namespace RF5_Harem;
 
-[HarmonyPatch(typeof(CampMenuMain), nameof(CampMenuMain.StartCamp))]
+[HarmonyPatch]
 internal static class CampMenuMainPatch
 {
+	[HarmonyPatch(typeof(CampMenuMain), nameof(CampMenuMain.StartCamp))]
 	internal static void Prefix()
 	{
 		NpcDataManagerPatch.hideLover = false;
