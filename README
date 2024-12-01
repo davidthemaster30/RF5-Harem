@@ -1,6 +1,16 @@
-# RF5-Harem
+# Rune Factory 5 - Harem
 Rune Factory 5 BepInEx plugin to allow Harem
 
 Updated to work with latest BepInEx versions ( > 6.0.0--be.577 )
 
-[Updated version of zonde306's mod](https://www.nexusmods.com/runefactory5/mods/32) [source:](https://gitgud.io/zonde306/rf5_harem) 
+## Installation
+
+1. Install [BepInEx BE v647 or later](https://builds.bepinex.dev/projects/bepinex_be) (IL2CPP_x64)
+or install other base mod BepInEx already included (like [RF5Fix v0.1.5 mod](https://github.com/Lyall/RF5Fix))
+2. Get [Latest Release](https://github.com/davidthemaster30/RF5-NPCDetails/releases)
+3. Extract the contents of downloaded zip into `<GameDirectory>\BepInEx\plugins`. 
+4. (Optional) Get the [BepInEx Configuration Manager](https://github.com/BepInEx/BepInEx.ConfigurationManager)
+
+## Mirrors
+* [New Nexus Mods](https://www.nexusmods.com/runefactory5/mods/97)
+* [Original zonde306 Nexus Mod](https://www.nexusmods.com/runefactory5/mods/32) [source:](https://gitgud.io/zonde306/rf5_harem) 
