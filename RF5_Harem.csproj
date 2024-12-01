@@ -5,6 +5,7 @@
     <AssemblyName>RF5_Harem</AssemblyName>
     <Description>RF5_Harem</Description>
     <Product>RF5_Harem</Product>
+    <Company>https://github.com/davidthemaster30/RF5-Harem</Company>
     <Version>1.2.0</Version>
     <LangVersion>latest</LangVersion>
     <RootNamespace>RF5_Harem</RootNamespace>
