@@ -7,7 +7,7 @@ using BepInEx.Unity.IL2CPP;
 
 namespace RF5_Harem;
 
-//[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInProcess(GAME_PROCESS)]
 public class HaremPlugin : BasePlugin
 {
@@ -24,12 +24,12 @@ public class HaremPlugin : BasePlugin
 
 	public override void Load()
 	{
-		//Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loading!");
+		Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loading!");
 
 		LoadConfig();
 		var assembly = Assembly.GetExecutingAssembly();
 		Harmony.CreateAndPatchAll(assembly);
 
-//		Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loaded!");
+		Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 	}
 }
