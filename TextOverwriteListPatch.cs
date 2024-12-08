@@ -13,6 +13,6 @@ internal static class TextOverwriteListPatch
 			Relation.SetNPC(speakerId);
 		}
 
-		Main.Log.LogDebug($"TextOverwriteList.TransformText npcid:{speakerId}");
+		HaremPlugin.Log.LogDebug($"TextOverwriteList.TransformText npcid:{speakerId}");
 	}
 }

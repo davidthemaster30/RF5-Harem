@@ -38,7 +38,7 @@ internal static class ConditionsForLoverJudgmentPatch
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.LASTEPISODE));
 		if (!eventFlag)
 		{
-			Main.Log.LogWarning("Events 20, 21, 22, 1250 in progress");
+			HaremPlugin.Log.LogWarning("Events 20, 21, 22, 1250 in progress");
 		}
 
 		__result = relation && eventFlag;
@@ -53,7 +53,7 @@ internal static class ConditionsForLoverJudgmentPatch
 			!FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.FLAG_DATE_RESERVATION_NG));
 		if (!eventFlag)
 		{
-			Main.Log.LogWarning("Events 22, 23 in progress");
+			HaremPlugin.Log.LogWarning("Events 22, 23 in progress");
 			__result = 0;
 			return false;
 		}

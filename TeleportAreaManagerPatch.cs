@@ -28,7 +28,7 @@ internal static class TeleportAreaManagerPatch
 				}
 		}
 
-		Main.Log.LogDebug($"TeleportAreaManager.GetHomeBGMId bgm:{__result}");
+		HaremPlugin.Log.LogDebug($"TeleportAreaManager.GetHomeBGMId bgm:{__result}");
 		return false;
 	}
 
@@ -36,7 +36,7 @@ internal static class TeleportAreaManagerPatch
 	internal static bool Prefix()
 	{
 		SoundManager.Instance.PlayBGM(TeleportAreaManager.Instance.GetHomeBGMId());
-		Main.Log.LogDebug($"TeleportAreaManager.PlayHomeBGM bgm:{TeleportAreaManager.Instance.GetHomeBGMId()}");
+		HaremPlugin.Log.LogDebug($"TeleportAreaManager.PlayHomeBGM bgm:{TeleportAreaManager.Instance.GetHomeBGMId()}");
 		return false;
 	}
 }

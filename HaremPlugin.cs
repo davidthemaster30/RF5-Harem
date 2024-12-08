@@ -3,20 +3,13 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using RF5_Harem.Configuration;
-
-#if (NETSTANDARD2_1)
-using BepInEx.IL2CPP;
-#endif
-
-#if (NET6_0)
 using BepInEx.Unity.IL2CPP;
-#endif
 
 namespace RF5_Harem;
 
-[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+//[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInProcess(GAME_PROCESS)]
-public class Main : BasePlugin
+public class HaremPlugin : BasePlugin
 {
 	private const string GAME_PROCESS = "Rune Factory 5.exe";
 
@@ -31,12 +24,12 @@ public class Main : BasePlugin
 
 	public override void Load()
 	{
-		Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loading!");
+		//Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loading!");
 
 		LoadConfig();
 		var assembly = Assembly.GetExecutingAssembly();
 		Harmony.CreateAndPatchAll(assembly);
 
-		Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loaded!");
+//		Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 	}
 }

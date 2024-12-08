@@ -14,7 +14,7 @@ internal class NpcSearchColliderPatch
 			if (data is not null && data.Initialized && !data.IsShortPlay && !EventControllerBase.Instance.IsTalking)
 			{
 				Relation.SetNPC(__instance.owner.NpcId);
-				Main.Log.LogDebug($"NpcSearchCollider.OnTriggerEnter npcid:{__instance.owner.NpcId}");
+				HaremPlugin.Log.LogDebug($"NpcSearchCollider.OnTriggerEnter npcid:{__instance.owner.NpcId}");
 			}
 		}
 	}

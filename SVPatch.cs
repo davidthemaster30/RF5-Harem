@@ -13,7 +13,7 @@ internal static class SVPatch
 	{
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)(SpousesConfig.SaveLogo.Value == 1 ? Relation.RandomSpouses() : SpousesConfig.SaveLogo.Value);
 
-		Main.Log.LogDebug($"AutoSave npcid:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}");
+		HaremPlugin.Log.LogDebug($"AutoSave npcid:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}");
 
 		if (type != AutoSaveType.PlayerSleep)
 		{
@@ -35,7 +35,7 @@ internal static class SVPatch
 				data.BedPatrolPointName = PLAYER_BED;
 				data.BedPatrolPoint = NpcPatrolPointManager.Instance.GetPoint(data.BedPatrolPointName).GetComponent<NpcPatrolPoint>();
 				data.SetChatTalkLv(4, true);
-				Main.Log.LogInfo($"ResetNpcBed npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}, NickName:{data.NickNameFromPlayerId}, PlayerNickName:{data.NickNameToPlayerId}");
+				HaremPlugin.Log.LogInfo($"ResetNpcBed npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}, NickName:{data.NickNameFromPlayerId}, PlayerNickName:{data.NickNameToPlayerId}");
 			}
 		}
 	}

@@ -22,7 +22,7 @@ internal static class EventControllerBasePatch
 				__instance.TargetNpc.NpcData.IsRefused = false;
 			}
 
-			Main.Log.LogDebug($"EventControllerBase.RunScript npcid:{__instance.TargetNpcId}");
+			HaremPlugin.Log.LogDebug($"EventControllerBase.RunScript npcid:{__instance.TargetNpcId}");
 		}
 	}
 	[HarmonyPatch]
@@ -40,7 +40,7 @@ internal static class EventControllerBasePatch
 				Relation.SetNPC(__instance.TargetNpcId);
 			}
 
-			Main.Log.LogDebug($"EventControllerBase.GetNpcTalkType npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
+			HaremPlugin.Log.LogDebug($"EventControllerBase.GetNpcTalkType npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
 		}
 	}
 	[HarmonyPatch]
@@ -59,7 +59,7 @@ internal static class EventControllerBasePatch
 				Relation.SetNPC(__instance.TargetNpcId);
 			}
 
-			Main.Log.LogDebug($"EventControllerBase.SelectedMenuGroup npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
+			HaremPlugin.Log.LogDebug($"EventControllerBase.SelectedMenuGroup npcid:{__instance.TargetNpcId} evnpcid:{SaveData.SaveDataManager.GameSaveData.EventData.EventSaveParameter.TargetNpcId}");
 		}
 	}
 	[HarmonyPatch]

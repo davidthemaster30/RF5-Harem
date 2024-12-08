@@ -15,7 +15,7 @@ internal static class PlayerBedControllerPatch
 			int spouse = SpousesConfig.Bedmate.Value == 1 ? Relation.RandomSpouses() : SpousesConfig.Bedmate.Value;
 
 			Relation.SetNPC(spouse);
-			Main.Log.LogDebug($"PlayerBedController.DoInteraction npcid:{spouse}");
+			HaremPlugin.Log.LogDebug($"PlayerBedController.DoInteraction npcid:{spouse}");
 		}
 	}
 
@@ -34,12 +34,12 @@ internal static class PlayerBedControllerPatch
 						data.Home = data.statusData.Home;
 						data.BedPatrolPointName = data.statusData.BedPatrolPointName;
 						data.BedPatrolPoint = NpcPatrolPointManager.Instance.GetPoint(data.BedPatrolPointName).GetComponent<NpcPatrolPoint>();
-						Main.Log.LogInfo($"GoHomeSleep npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}");
+						HaremPlugin.Log.LogInfo($"GoHomeSleep npcid:{data.NpcId}({(Define.NPCID)data.NpcId}), Home:{data.Home}, Bed:{data.BedPatrolPointName}");
 					}
 				}
 			}
 
-			Main.Log.LogDebug($"PlayerBedController.PlayerSleep npcid:{NpcDataManagerPatch.forceNPCID}");
+			HaremPlugin.Log.LogDebug($"PlayerBedController.PlayerSleep npcid:{NpcDataManagerPatch.forceNPCID}");
 		}
 	}
 

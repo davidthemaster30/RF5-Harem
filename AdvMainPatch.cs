@@ -13,7 +13,7 @@ internal static class AdvMainPatch
 			Relation.SetNPC(npc.NpcId);
 		}
 
-		Main.Log.LogDebug($"AdvMain.AdvStart npcid:{npc?.NpcId}");
+		HaremPlugin.Log.LogDebug($"AdvMain.AdvStart npcid:{npc?.NpcId}");
 	}
 
 
@@ -29,7 +29,7 @@ internal static class AdvMainPatch
 
 		if (__instance.Cmd is not null && __instance.Cmd.Arg is not null && __instance.Cmd.ArgText is not null)
 		{
-			Main.Log.LogDebug($"AdvMain.ReadCommand npcid:{npc?.NpcId} cmdid:{(CommandList)__instance.Cmd.CmdID} arg:{string.Join(",", __instance.Cmd.Arg)} args:{string.Join(",", __instance.Cmd.ArgText)}");
+			HaremPlugin.Log.LogDebug($"AdvMain.ReadCommand npcid:{npc?.NpcId} cmdid:{(CommandList)__instance.Cmd.CmdID} arg:{string.Join(",", __instance.Cmd.Arg)} args:{string.Join(",", __instance.Cmd.ArgText)}");
 		}
 	}
 
@@ -37,14 +37,14 @@ internal static class AdvMainPatch
 	internal static void Postfix(AdvMain.WorkList __result)
 	{
 		LastResult = __result;
-		Main.Log.LogDebug($"AdvMain.ReadCommand result:{__result}");
+		HaremPlugin.Log.LogDebug($"AdvMain.ReadCommand result:{__result}");
 	}
 
 	[HarmonyPatch(typeof(AdvMain), nameof(AdvMain.ReadCommand))]
 	internal static Exception Finalizer(Exception __exception, ref AdvMain.WorkList __result)
 	{
 		__result = LastResult;
-		Main.Log.LogDebug($"AdvMain.ReadCommand Exception:{__exception.Message}, LastResult:{__result}, Stack:{__exception.StackTrace}");
+		HaremPlugin.Log.LogDebug($"AdvMain.ReadCommand Exception:{__exception.Message}, LastResult:{__result}, Stack:{__exception.StackTrace}");
 		return null;
 	}
 

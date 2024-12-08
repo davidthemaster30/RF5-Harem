@@ -15,7 +15,7 @@ internal static class NPCActionBehaviorControllerPatch
 				Relation.SetNPC(__instance.NPCOwner.NPCData.NpcId);
 			}
 
-			Main.Log.LogDebug($"NPCActionBehaviorController.GetDataList npcid:{__instance.NPCOwner.NPCData.NpcId}");
+			HaremPlugin.Log.LogDebug($"NPCActionBehaviorController.GetDataList npcid:{__instance.NPCOwner.NPCData.NpcId}");
 		}
 	}
 }

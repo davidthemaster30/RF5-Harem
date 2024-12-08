@@ -25,7 +25,7 @@ internal static class Relation
 		NpcDataManagerPatch.forceNPCID = 0;
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = NPCID.Ares;
 
-		Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
+		HaremPlugin.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 	}
 
 	internal static void SetNPC(int npcid)
@@ -68,14 +68,14 @@ internal static class Relation
 				NpcDataManagerPatch.hideLover = true;
 			}
 
-			Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
+			HaremPlugin.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 			return;
 		}
 
 		NpcDataManagerPatch.forceNPCID = npcid;
 		SaveData.SaveDataManager.PlayerData.MarriedNPCID = (Define.NPCID)npcid;
 
-		Main.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
+		HaremPlugin.Log.LogDebug($"*** hideSpouse:{NpcDataManagerPatch.hideSpouse}, hideLover:{NpcDataManagerPatch.hideLover}, forceNPCID:{NpcDataManagerPatch.forceNPCID}, MarriedNPCID:{SaveData.SaveDataManager.PlayerData.MarriedNPCID}, PLAYER_MARRIED:{FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.PLAYER_MARRIED)}");
 	}
 
 	internal static int RandomSpouses()

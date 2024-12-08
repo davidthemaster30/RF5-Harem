@@ -18,7 +18,7 @@ internal static class SubEventManagerPatch
 				return false;
 			}
 
-			Main.Log.LogDebug($"SubEventManager.CheckCanMarriage npcid:{data.NpcId}");
+			HaremPlugin.Log.LogDebug($"SubEventManager.CheckCanMarriage npcid:{data.NpcId}");
 
 			bool relation = EventControllerBase.Instance.GetNpcLoveStoryProgress(data.NpcId) >= MarriageConfig.MinLoveStoryProgress.Value &&
 				NpcDataManager.Instance.LovePointManager.GetLoveLvByNpcData(data) >= MarriageConfig.MinLoveLevel.Value;
@@ -26,21 +26,21 @@ internal static class SubEventManagerPatch
 			bool ring = !MarriageConfig.NeedRing.Value || ItemStorageManager.GetStorage(Define.StorageType.Rucksack).GetItemAmoutId(ItemID.Item_Konyakuyubiwa) > 0;
 			if (!ring)
 			{
-				Main.Log.LogWarning("CheckCanMarriage ring missing");
+				HaremPlugin.Log.LogWarning("CheckCanMarriage ring missing");
 			}
 
 			bool doublebed = !MarriageConfig.NeedDoubleBed.Value ||
 				SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed);
 			if (!doublebed)
 			{
-				Main.Log.LogWarning("CheckCanMarriage double bed missing");
+				HaremPlugin.Log.LogWarning("CheckCanMarriage double bed missing");
 			}
 
 			bool eventFlag = !MarriageConfig.EventCheck.Value ||
 				FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.CHAPTER1_D2_8);
 			if (!eventFlag)
 			{
-				Main.Log.LogWarning("Event 1342 not completed");
+				HaremPlugin.Log.LogWarning("Event 1342 not completed");
 			}
 
 			if (__result == relation && ring && doublebed && eventFlag)
@@ -64,7 +64,7 @@ internal static class SubEventManagerPatch
 				return false;
 			}
 
-			Main.Log.LogDebug($"SubEventManager.CheckCanMarriage_ThrowRing npcid:{data.NpcId}");
+			HaremPlugin.Log.LogDebug($"SubEventManager.CheckCanMarriage_ThrowRing npcid:{data.NpcId}");
 
 			bool relation = EventControllerBase.Instance.GetNpcLoveStoryProgress(data.NpcId) >= MarriageConfig.MinLoveStoryProgress.Value &&
 				NpcDataManager.Instance.LovePointManager.GetLoveLvByNpcData(data) >= MarriageConfig.MinLoveLevel.Value;
@@ -72,7 +72,7 @@ internal static class SubEventManagerPatch
 			bool doublebed = !MarriageConfig.NeedDoubleBed.Value || SaveData.SaveDataManager.BuildData.CheckBuilder(RF5SHOP.BuilderId.Build_Police_doublebed);
 			if (!doublebed)
 			{
-				Main.Log.LogWarning("CheckCanMarriage double bed missing");
+				HaremPlugin.Log.LogWarning("CheckCanMarriage double bed missing");
 			}
 
 			bool eventFlag = !MarriageConfig.EventCheck.Value ||
@@ -80,7 +80,7 @@ internal static class SubEventManagerPatch
 				FlagDataStorage.CheckScriptFlag((int)Define.GameFlagData.CHAPTER1_D2_8));
 			if (!eventFlag)
 			{
-				Main.Log.LogWarning("Event 1342 not completed");
+				HaremPlugin.Log.LogWarning("Event 1342 not completed");
 			}
 
 			if (__result == relation && eventFlag && doublebed)
